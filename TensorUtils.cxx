@@ -8,8 +8,6 @@
 //____________________________________________________________________________
 
 #include <algorithm>
-#include "Messenger/Messenger.h"
-#include "Conventions/Constants.h"
 #include "TMath.h"
 #include "TLorentzVector.h"
 #include "Tensor.h"
@@ -18,9 +16,7 @@
 #include "TensorDim3.h"
 #include "TensorDim4.h"
 
-
-#include "NuGamma/TensorUtils.h"
-#include "Messenger/Messenger.h"
+#include "TensorUtils.h"
 
 #include <iostream>
 #include <iomanip>
@@ -28,11 +24,6 @@
 #include <string>
 #include <cstdlib>
 #include <complex>
-
-using std::endl;
-using namespace genie;
-using namespace utils;
-using namespace constants;
 
 
 TensorDim2* TensorUtils::GetIdentityMatrix(){
@@ -355,15 +346,3 @@ double TensorUtils::FMV(const TensorDim1* xp1, const TensorDim1* xp2){
   
   return FMV;
 }
-
-// void TensorUtils::FillWithMinus(TensorDim2* in[4][4], TensorDim2* out[4][4]){
-//   for(int i1 = 0; i1 < 4; i1++){
-//     for(int i2 = 0; i2 < 4; i2++){
-//       for(int i3 = 0; i3 < 4; i3++){
-// 	for(int i4 = 0; i4 < 4; i4++){
-// 	  (*out)[i1][i2][i3][i4] = -(*in)[i1][i2][i3][i4];
-// 	}
-//       }
-//     }
-//   }
-// }

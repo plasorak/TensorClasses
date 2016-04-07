@@ -1,7 +1,5 @@
 #include "NuGamma/TensorDim4.h"
 
-using namespace genie::utils;
-
 ClassImp(TensorDim4)
 
 bool TensorDim4::CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k, const unsigned int l) const{

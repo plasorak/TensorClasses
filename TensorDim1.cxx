@@ -1,4 +1,4 @@
-#include "NuGamma/TensorDim1.h"
+#include "TensorDim1.h"
 
 using namespace genie::utils;
 

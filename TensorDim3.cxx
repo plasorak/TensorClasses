@@ -1,9 +1,6 @@
-#include "NuGamma/TensorDim3.h"
-
-using namespace genie::utils;
+#include "TensorDim3.h"
 
 ClassImp(TensorDim3)
-
 
 bool TensorDim3::CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k)const{
   return (i < DimSizes[0] && j < DimSizes[1] && k < DimSizes[2]);

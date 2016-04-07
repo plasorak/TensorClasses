@@ -8,12 +8,9 @@
 #include <cstdlib>
 #include <complex>
 
-//#include "Messenger/Messenger.h"
-#include "NuGamma/Tensor.h"
+#include "Tensor.h"
 
-namespace genie {
-
-  namespace utils {
+namespace Tensor {
 
     class TensorDim1: public Tensor{
 
