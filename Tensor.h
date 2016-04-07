@@ -12,11 +12,7 @@
 
 
 
-namespace Tensor {
-
-
-
-
+namespace TensorUtils {
 
   class Tensor: public TObject{
     

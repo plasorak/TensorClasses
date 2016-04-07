@@ -10,7 +10,7 @@
 
 #include "Tensor.h"
 
-namespace Tensor {
+namespace TensorUtils {
   class TensorDim2: public Tensor{
     
   private:

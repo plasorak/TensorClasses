@@ -7,7 +7,7 @@
 #include <string>
 #include <cstdlib>
 
-namespace Tensor {
+namespace TensorUtils {
 
   ~Tensor::Tensor(){
     Elements.clear();
