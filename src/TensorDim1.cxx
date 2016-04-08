@@ -1,6 +1,6 @@
-#include "TensorDim1.h"
+#include "TensorUtils/TensorDim1.h"
 
-ClassImp(TensorDim1)
+//ClassImp(TensorUtils::TensorDim1)
 
 namespace TensorUtils {
   bool TensorDim1::CheckIndex(const unsigned int i) const{
@@ -15,7 +15,7 @@ namespace TensorUtils {
     TensorDim1(4);
   };
 
-  TensorDim1::TensorDim1(int SizeDim, std::string Name = "none"){
+  TensorDim1::TensorDim1(int SizeDim, std::string Name){
     this->Name = Name;
     DimSizes.clear();
     DimSizes.push_back(SizeDim);
@@ -29,7 +29,7 @@ namespace TensorUtils {
     if(!CheckIndex(i))
       exit(1);
     return Elements[GetGlobalIndex(i)];
-      
+
   };
 
   void TensorDim1::Set(const unsigned int i, TComplex c){
@@ -45,7 +45,7 @@ namespace TensorUtils {
   TComplex& TensorDim1::operator()(const unsigned int i){
     if(!CheckIndex(i))
       //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
-      exit(1);      
+      exit(1);
     return Elements[GetGlobalIndex(i)];
   };
 
@@ -53,7 +53,7 @@ namespace TensorUtils {
     if(!CheckIndex(i))
       exit(1);
     //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
-      
+
     return Elements[GetGlobalIndex(i)];
   };
 

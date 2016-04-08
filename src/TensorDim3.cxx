@@ -1,6 +1,6 @@
-#include "TensorDim3.h"
+#include "TensorUtils/TensorDim3.h"
 
-ClassImp(TensorDim3)
+//ClassImp(TensorUtils::TensorDim3)
 
 namespace TensorUtils{
 
@@ -8,12 +8,12 @@ namespace TensorUtils{
     return (i < DimSizes[0] && j < DimSizes[1] && k < DimSizes[2]);
   };
 
-  unsigned intTensorDim3:: GetGlobalIndex(const unsigned int i1,
+  unsigned int TensorDim3:: GetGlobalIndex(const unsigned int i1,
 					  const unsigned int i2,
 					  const unsigned int i3)const{
     return DimSizes[0] * DimSizes[1] * i1 + DimSizes[1] * i2 + i3;
   };
-  
+
   TensorDim3::TensorDim3(const TensorDim3& t1){
     this->Name = t1.Name;
     this->Dim  = t1.Dim;
@@ -27,7 +27,7 @@ namespace TensorUtils{
     TensorDim3(4,4,4);
   };
 
-  TensorDim3::TensorDim3(int SizeDim1, int SizeDim2, int SizeDim3, std::string Name = "none"){
+  TensorDim3::TensorDim3(int SizeDim1, int SizeDim2, int SizeDim3, std::string Name){
     this->Name = Name;
     DimSizes.clear();
     DimSizes.push_back(SizeDim1);
@@ -45,17 +45,17 @@ namespace TensorUtils{
     }
   };
 
-  TensorDim3::TensorDim3(int SizeDim, std::string Name = "none"){
+  TensorDim3::TensorDim3(int SizeDim, std::string Name){
     TensorDim3(SizeDim, SizeDim, SizeDim, Name);
   };
-    
+
   TComplex TensorDim3::At(const unsigned int i, const unsigned int j, const unsigned int k)const{
     if(CheckIndex(i, j, k))
       exit(1);
     //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
-      
+
     return Elements[GetGlobalIndex(i, j, k)];
-      
+
   };
 
   void TensorDim3::Set(const unsigned int i, const unsigned int j, const unsigned int k, TComplex c){
@@ -65,7 +65,7 @@ namespace TensorUtils{
       //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
     }
   };
-  
+
   TComplex& TensorDim3::operator()(const unsigned int i1,
 				   const unsigned int i2,
 				   const unsigned int i3){

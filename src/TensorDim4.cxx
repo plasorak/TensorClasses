@@ -1,6 +1,6 @@
-#include "NuGamma/TensorDim4.h"
+#include "TensorUtils/TensorDim4.h"
 
-ClassImp(TensorDim4)
+//ClassImp(TensorUtils::TensorDim4)
 
 namespace TensorUtils{
 
@@ -30,8 +30,8 @@ namespace TensorUtils{
   TensorDim4::TensorDim4(){
     TensorDim4(4,4,4,4);
   };
-    
-  TensorDim4::TensorDim4(int SizeDim1, int SizeDim2, int SizeDim3, int SizeDim4, std::string Name = "none"){
+
+  TensorDim4::TensorDim4(int SizeDim1, int SizeDim2, int SizeDim3, int SizeDim4, std::string Name){
     this->Name = Name;
     DimSizes.clear();
     DimSizes.push_back(SizeDim1);
@@ -53,7 +53,7 @@ namespace TensorUtils{
     }
   };
 
-  TensorDim4::TensorDim4(int SizeDim, std::string Name = "none"){
+  TensorDim4::TensorDim4(int SizeDim, std::string Name){
     TensorDim4(SizeDim, SizeDim, SizeDim, SizeDim, Name);
   };
 
@@ -63,10 +63,10 @@ namespace TensorUtils{
 			  const unsigned int l) const{
     if(!CheckIndex(i, j, k, l))
       exit(1);
-	
+
     return Elements[GetGlobalIndex(i, j, k, l)];
   };
-  
+
   void TensorDim4::Set(int i, int j, int k, int l, TComplex c){
     if(CheckIndex(i, j, k, l))
       Elements[GetGlobalIndex(i, j, k, l)] = c;
@@ -74,7 +74,7 @@ namespace TensorUtils{
       //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
     }
   };
-  
+
   TComplex& TensorDim4::operator()(const unsigned int i1,
 				   const unsigned int i2,
 				   const unsigned int i3,
@@ -82,10 +82,10 @@ namespace TensorUtils{
     if(!CheckIndex(i1, i2, i3, i4))
       exit(1);
     //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
-      
+
     return Elements[GetGlobalIndex(i1, i2, i3, i4)];
   };
-  
+
   TComplex TensorDim4::operator()(const unsigned int i1,
 				  const unsigned int i2,
 				  const unsigned int i3,
@@ -93,7 +93,7 @@ namespace TensorUtils{
     if(!CheckIndex(i1, i2, i3, i4))
       exit(1);
     //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
-      
+
     return Elements[GetGlobalIndex(i1, i2, i3, i4)];
   };
 }
