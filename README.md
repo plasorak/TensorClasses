@@ -4,6 +4,8 @@ Please add some lines describing the project!
 
 ## Building the project
 
+Set the environment to a ROOT installation, created with CMake and then:
+
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=<installdir>  <path to sources>
