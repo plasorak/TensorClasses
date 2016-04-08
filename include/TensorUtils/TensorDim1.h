@@ -105,9 +105,8 @@ namespace TensorUtils {
       friend bool operator> (const Tensor &t1, TComplex d); //
       friend bool operator< (const Tensor &t1, TComplex d); //
 
-      ClassDef(TensorDim1, 2)
+      //ClassDef(TensorUtils::TensorDim1, 2)
     };
- 
-  }
+
 }
 #endif

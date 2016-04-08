@@ -15,9 +15,9 @@
 namespace TensorUtils {
 
   class Tensor: public TObject{
-    
+
   public:
-    
+
     ~Tensor();
     TComplex At();
     void Set();
@@ -31,19 +31,11 @@ namespace TensorUtils {
     std::string GetName(){
       return Name;
     };
-  
+
     friend Tensor operator-(const Tensor &t1);
     //Tensor OperatorMinus(const Tensor &t1);
 
-    Tensor& operator=(const Tensor &t1){
-      this->Name = t1.Name;
-      this->Dim  = t1.Dim;
-      for(unsigned int i = 0; i < t1.Elements.size(); i++)
-	this->Elements.push_back(t1.Elements[i]);
-      for(unsigned int i = 0; i < t1.DimSizes.size(); i++)
-	this->DimSizes.push_back(t1.DimSizes[i]);
-      return *this;
-    };
+    Tensor& operator=(const Tensor &t1);
 
     friend Tensor operator+(const int c, const Tensor &t1);
     friend Tensor operator-(const int c, const Tensor &t1);
@@ -93,7 +85,7 @@ namespace TensorUtils {
     friend bool operator<=(const double d, const Tensor &t1); //
     friend bool operator> (const double d, const Tensor &t1); //
     friend bool operator< (const double d, const Tensor &t1); //
-    
+
     friend bool operator==(const Tensor &t1, const double d); //
     friend bool operator!=(const Tensor &t1, const double d); //
     friend bool operator>=(const Tensor &t1, const double d); //
@@ -124,15 +116,15 @@ namespace TensorUtils {
     std::string Name;
     unsigned int Dim;
 
-    virtual bool CheckIndex()const;
-    virtual unsigned int GetGlobalIndex()const;
+    virtual bool CheckIndex() const {return true;}; //TODO
+    virtual unsigned int GetGlobalIndex() const { return 0;}; //TODO
 
     Tensor(){};
 
     TComplex& operator()(const unsigned int GlobalIndex);
     TComplex  operator()(const unsigned int GlobalIndex) const;
- 
-    ClassDef(Tensor, 1)
+
+    //ClassDef(Tensor, 1)
   };
 
 }

@@ -1,5 +1,5 @@
-#ifndef _TENSORDIM4_H_
-#define _TENSORDIM4_H_
+#ifndef _TENSORDIM3_H_
+#define _TENSORDIM3_H_
 
 #include <iostream>
 #include <iomanip>
@@ -11,24 +11,23 @@
 #include "Tensor.h"
 
 namespace TensorUtils {
-  class TensorDim4: public Tensor{
-    
+  class TensorDim3: public Tensor{
+
   private:
 
-    bool CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k, const unsigned int l) const;
-    unsigned int GetGlobalIndex(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4) const;
+    bool CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k)const;
+    unsigned int GetGlobalIndex(const unsigned int i1, const unsigned int i2, const unsigned int i3)const;
 
   public:
-    TensorDim4();
-    TensorDim4(int SizeDim1, int SizeDim2, int SizeDim3, int SizeDim4, std::string Name = "none");
-    TensorDim4(int SizeDim, std::string Name = "none");
-    TComplex At(const unsigned int i, const unsigned int j, const unsigned int k, const unsigned int l);
-    void Set(int i, int j, int k, int l, TComplex c);
-    TComplex& operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4);
-    TComplex operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4) const;
-    TensorDim4(const TensorDim4& t1);
+    TensorDim3();
+    TensorDim3(const TensorDim3& t1);
+    TensorDim3(int SizeDim1, int SizeDim2, int SizeDim3, std::string Name = "none");
+    TensorDim3(int SizeDim, std::string Name = "none");
 
-
+    TComplex At(const unsigned int i, const unsigned int j, const unsigned int k)const;
+    void Set(const unsigned int i, const unsigned int j, const unsigned int k, TComplex c);
+    TComplex& operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3);
+    TComplex operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3) const;
 
     using Tensor::operator=;
 
@@ -106,7 +105,9 @@ namespace TensorUtils {
     friend bool operator> (const Tensor &t1, TComplex d); //
     friend bool operator< (const Tensor &t1, TComplex d); //
 
-    ClassDef(TensorDim4, 1)
+
+    //ClassDef(TensorDim3, 1)
+
   };
 }
 
