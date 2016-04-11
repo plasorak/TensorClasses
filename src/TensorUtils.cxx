@@ -1,8 +1,11 @@
-#include "TensorDim1.h"
-#include "TensorDim2.h"
-#include "TensorDim3.h"
-#include "TensorDim4.h"
-#include "TensorUtils.h"
+
+
+#include "TensorUtils/Tensor.h"
+#include "TensorUtils/TensorDim1.h"
+#include "TensorUtils/TensorDim2.h"
+#include "TensorUtils/TensorDim3.h"
+#include "TensorUtils/TensorDim4.h"
+#include "TensorUtils/TensorUtils.h"
 
 using namespace TensorUtils;
 
@@ -88,5 +91,3 @@ TensorDim2 SlashDirac(){
   TensorDim2 t(4);
   return t;
 };
-
-

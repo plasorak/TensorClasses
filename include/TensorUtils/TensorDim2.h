@@ -1,6 +1,7 @@
-#ifndef _TENSORDIM3_H_
-#define _TENSORDIM3_H_
+#ifndef _TENSORDIM2_H_
+#define _TENSORDIM2_H_
 
+#include "TensorDim1.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -8,32 +9,34 @@
 #include <cstdlib>
 #include <complex>
 
-#include "Tensor.h"
+#include "TensorUtils/Tensor.h"
 
-class TensorDim3: public Tensor{
+namespace TensorUtils{
+
+class TensorDim2: public Tensor{
     
 private:
-    
-  bool CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k)const;
-  unsigned int GetGlobalIndex(const unsigned int i1, const unsigned int i2, const unsigned int i3)const;
-  
+
+  bool CheckIndex(const unsigned int i, const unsigned int j) const;
+  unsigned int GetGlobalIndex(const unsigned int i, const unsigned int j) const;
+
 public:
-  TensorDim3();
-  TensorDim3(const TensorDim3& t1);
-  TensorDim3(int SizeDim1, int SizeDim2, int SizeDim3, std::string Name = "none");
-  TensorDim3(int SizeDim, std::string Name = "none");
-    
-  TComplex At(const unsigned int i, const unsigned int j, const unsigned int k)const;
-  void Set(const unsigned int i, const unsigned int j, const unsigned int k, TComplex c);
-  TComplex& operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3);
-  TComplex operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3) const;
+
+  TensorDim2(const TensorDim2& t1);
+  TensorDim2(int SizeDim1, int SizeDim2, std::string Name = "none");
+  TensorDim2(int SizeDim = 4, std::string Name = "none");
+  
+  TComplex At(const unsigned int i, const unsigned int j)const;
+  void Set(const unsigned int i, const unsigned int j, TComplex c);
+  TComplex& operator()(const int i1, const int i2);
+  TComplex  operator()(const int i1, const int i2) const;
 
   using Tensor::operator=;
-
+  
   friend Tensor Real(const Tensor &t1);
   friend Tensor Imaginary(const Tensor &t1);
   friend Tensor Abs(const Tensor &t1);
-
+      
   friend Tensor operator+(const int c, const Tensor &t1);
   friend Tensor operator-(const int c, const Tensor &t1);
   friend Tensor operator*(const int c, const Tensor &t1);
@@ -69,9 +72,12 @@ public:
   friend Tensor operator*(const Tensor &t1, const Tensor &t2);
   friend Tensor operator/(const Tensor &t1, const Tensor &t2);
 
+  friend TensorDim2 MatMult(const TensorDim2 &t1,  const TensorDim2 &t2);
+  friend TensorDim1 MatMult(const TensorDim2 &td2, const TensorDim1 &td1);
+
   friend bool operator==(const Tensor &t1, const Tensor &t2);
   friend bool operator!=(const Tensor &t1, const Tensor &t2);
-  friend bool operator>=(const Tensor &t1, const Tensor &t2); // NEXT are yet to do
+  friend bool operator>=(const Tensor &t1, const Tensor &t2); // NEXT are yet to do (or not?)
   friend bool operator<=(const Tensor &t1, const Tensor &t2); //
   friend bool operator> (const Tensor &t1, const Tensor &t2); //
   friend bool operator< (const Tensor &t1, const Tensor &t2); //
@@ -104,10 +110,6 @@ public:
   friend bool operator> (const Tensor &t1, TComplex d); //
   friend bool operator< (const Tensor &t1, TComplex d); //
 
-
-  ClassDef(TensorDim3, 1)
- 
 };
-
-
+}
 #endif

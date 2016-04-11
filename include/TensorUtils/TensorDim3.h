@@ -1,5 +1,5 @@
-#ifndef _TENSORDIM4_H_
-#define _TENSORDIM4_H_
+#ifndef _TENSORDIM3_H_
+#define _TENSORDIM3_H_
 
 #include <iostream>
 #include <iomanip>
@@ -8,24 +8,27 @@
 #include <cstdlib>
 #include <complex>
 
-#include "Tensor.h"
+#include "TensorUtils/Tensor.h"
 
-class TensorDim4: public Tensor{
+namespace TensorUtils{
+
+class TensorDim3: public Tensor{
     
 private:
-
-  bool CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k, const unsigned int l) const;
-  unsigned int GetGlobalIndex(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4) const;
-
+    
+  bool CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k)const;
+  unsigned int GetGlobalIndex(const unsigned int i1, const unsigned int i2, const unsigned int i3)const;
+  
 public:
-  TensorDim4();
-  TensorDim4(int SizeDim1, int SizeDim2, int SizeDim3, int SizeDim4, std::string Name = "none");
-  TensorDim4(int SizeDim, std::string Name = "none");
-  TComplex At(const unsigned int i, const unsigned int j, const unsigned int k, const unsigned int l) const;
-  void Set(int i, int j, int k, int l, TComplex c);
-  TComplex& operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4);
-  TComplex operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4) const;
-  TensorDim4(const TensorDim4& t1);
+
+  TensorDim3(const TensorDim3& t1);
+  TensorDim3(int SizeDim1, int SizeDim2, int SizeDim3, std::string Name = "none");
+  TensorDim3(int SizeDim = 4, std::string Name = "none");
+    
+  TComplex At(const unsigned int i, const unsigned int j, const unsigned int k)const;
+  void Set(const unsigned int i, const unsigned int j, const unsigned int k, TComplex c);
+  TComplex& operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3);
+  TComplex operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3) const;
 
   using Tensor::operator=;
 
@@ -103,8 +106,9 @@ public:
   friend bool operator> (const Tensor &t1, TComplex d); //
   friend bool operator< (const Tensor &t1, TComplex d); //
 
-  ClassDef(TensorDim4, 1)
+
+  //  ClassDef(TensorDim3, 1)
+ 
 };
-
-
+}
 #endif

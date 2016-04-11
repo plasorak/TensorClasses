@@ -1,0 +1,15 @@
+# - Config file for the TensorUtils package
+# It defines the following variables
+#  TensorUtils_INCLUDE_DIRS - include directories
+#  TensorUtils_LIBRARIES    - libraries to link against
+#  TensorUtils_LIBRARY_DIR  - TensorUtils library dir
+#  TensorUtils_BINARY_DIR   - binary directory
+
+# Compute paths
+get_filename_component(TensorUtils_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+get_filename_component(TensorUtils_INCLUDE_DIRS "${TensorUtils_CMAKE_DIR}/../include" ABSOLUTE)
+get_filename_component(TensorUtils_BINARY_DIR "${TensorUtils_CMAKE_DIR}/../bin" ABSOLUTE)
+get_filename_component(TensorUtils_LIBRARY_DIR "${TensorUtils_CMAKE_DIR}/../lib" ABSOLUTE)
+
+ADD_LIBRARY(examplelibrary SHARED IMPORTED)
