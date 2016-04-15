@@ -1,11 +1,11 @@
 # TensorUtils
-
-Please add some lines describing the project!
+Simple tensor classes (rank 1, 2, 3 and 4) based on std::vector, aimed for integration in ROOT CERN package.
 
 ## Building the project
 
 Set the environment to a ROOT installation, created with CMake and then:
 
+    export GTEST_INCLUDE_DIRS=<path to/googletest/include/>
     mkdir build
     cd build
     cmake -DCMAKE_INSTALL_PREFIX=<installdir>  <path to sources>

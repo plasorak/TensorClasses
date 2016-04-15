@@ -1,9 +1,9 @@
 #ifndef _TENSORUTILS_H_
 #define _TENSORUTILS_H_
 #include "TensorUtils/TensorDim1.h"
-#include "TensorUtils/TensorDim2.h"
-#include "TensorUtils/TensorDim3.h"
-#include "TensorUtils/TensorDim4.h"
+// #include "TensorUtils/TensorDim2.h"
+// #include "TensorUtils/TensorDim3.h"
+// #include "TensorUtils/TensorDim4.h"
 
 
 namespace TensorUtils {

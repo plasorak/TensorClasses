@@ -62,3 +62,6 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/TensorUtils DESTINATION in
 
 ## handling of test executables
 add_subdirectory(tests)
+
+## add the executables
+add_subdirectory(exec)
