@@ -11,7 +11,7 @@ namespace TensorUtils{
     return i * DimSize[0] + j;
   };
 
-  TensorDim2::TensorDim2(int SizeDim1, int SizeDim2, std::string Name){
+  TensorDim2::TensorDim2(unsigned int SizeDim1, unsigned int SizeDim2, const char * Name){
     this->Name = Name;
     //this->DimSize.clear();
     this->DimSize.reserve(2);
@@ -48,7 +48,7 @@ namespace TensorUtils{
       this->DimSize.push_back(t1.DimSize[i]);
   };
 
-  TensorDim2::TensorDim2(int SizeDim, std::string Name){
+  TensorDim2::TensorDim2(unsigned int SizeDim, const char * Name){
     std::cout << "blabla"  <<std::endl;
     *this = TensorDim2(SizeDim, SizeDim, Name);
   };

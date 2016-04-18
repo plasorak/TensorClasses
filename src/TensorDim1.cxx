@@ -10,7 +10,7 @@ namespace TensorUtils{
     return i;
   };
 
-  TensorDim1::TensorDim1(int SizeDim, std::string Name){
+  TensorDim1::TensorDim1(unsigned int SizeDim, const char *Name){
     this->Name = Name;
     DimSize.clear();
     DimSize.reserve(1);
@@ -45,7 +45,6 @@ namespace TensorUtils{
   void TensorDim1::Set(const unsigned int i, TComplex c){
     if(CheckIndex(i))
       Element[GetGlobalIndex(i)] = c;
-
     else{
       exit(1);
       //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";

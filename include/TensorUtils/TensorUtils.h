@@ -1,10 +1,6 @@
 #ifndef _TENSORUTILS_H_
 #define _TENSORUTILS_H_
-#include "TensorUtils/TensorDim1.h"
-// #include "TensorUtils/TensorDim2.h"
-// #include "TensorUtils/TensorDim3.h"
-// #include "TensorUtils/TensorDim4.h"
-
+#include "TensorUtils/TensorDim.h"
 
 namespace TensorUtils {
 
@@ -30,8 +26,14 @@ namespace TensorUtils {
   TensorDim1 MatMult(const TensorDim2 &td2, const TensorDim1 &td1);
   TensorDim2 VecProd(const TensorDim1 &t1, const TensorDim1 &t2);
   TComplex   DotProd(const TensorDim1 &t1, const TensorDim1 &t2);
-  TensorDim2 SlashDirac();
-
+  
+  TensorDim1 ElementWiseMult(const TensorDim1 &t1, const TensorDim1 &t2);
+  TensorDim2 ElementWiseMult(const TensorDim2 &t1, const TensorDim2 &t2);
+  TensorDim3 ElementWiseMult(const TensorDim3 &t1, const TensorDim3 &t2);
+  TensorDim4 ElementWiseMult(const TensorDim4 &t1, const TensorDim4 &t2);
+  TComplex   DotProd(const TensorDim1 &t1, const TensorDim1 &t2);
+  TensorDim2 CrossProd(const TensorDim1 &t1, const TensorDim1 &t2);
+  TensorDim2 SlashDirac(const TensorDim1 t1);
 }
 
 #endif

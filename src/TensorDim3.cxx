@@ -21,7 +21,7 @@ namespace TensorUtils{
       this->DimSize.push_back(t1.DimSize[i]);
   };
 
-  TensorDim3::TensorDim3(int SizeDim1, int SizeDim2, int SizeDim3, std::string Name){
+  TensorDim3::TensorDim3(unsigned int SizeDim1, unsigned int SizeDim2, unsigned int SizeDim3, const char * Name){
     this->Name = Name;
     DimSize.clear();
     DimSize.reserve(3);
@@ -48,7 +48,7 @@ namespace TensorUtils{
     }
   };
 
-  TensorDim3::TensorDim3(int SizeDim, std::string Name){
+  TensorDim3::TensorDim3(unsigned int SizeDim, const char * Name){ 
     *this = TensorDim3(SizeDim, SizeDim, SizeDim, Name);
   };
 

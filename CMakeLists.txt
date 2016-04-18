@@ -6,6 +6,7 @@ set( TensorUtils_VERSION_MINOR 1 )
 set( TensorUtils_VERSION_PATCH 0 )
 set( TensorUtils_VERSION "${TensorUtils_VERSION_MAJOR}.${TensorUtils_VERSION_MINOR}" )
 
+set(CMAKE_MACOSX_RPATH 1)
 set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 

@@ -28,7 +28,7 @@ namespace TensorUtils{
   public:
 
     TensorDim1(const TensorDim1& t1);
-    TensorDim1(int SizeDim = 4, std::string Name = "none");
+    TensorDim1(unsigned int SizeDim = 4, const char * Name = "none");
 
 
     void Print() const;
@@ -78,9 +78,6 @@ namespace TensorUtils{
     friend Tensor operator+(const Tensor &t1, const Tensor &t2);
     friend Tensor operator-(const Tensor &t1, const Tensor &t2);
 
-    friend TComplex   ElementWiseMult(const TensorDim1 &t1, const TensorDim1 &t2);
-    friend TComplex   DotProd(const TensorDim1 &t1, const TensorDim1 &t2);
-    friend TensorDim2 CrossProd(const TensorDim1 &t1, const TensorDim1 &t2);
     friend TComplex   operator*(const TensorDim1 &t1, const TensorDim1 &t2);
 
     friend bool operator==(const Tensor &t1, const Tensor &t2);
@@ -130,8 +127,8 @@ namespace TensorUtils{
   public:
 
     TensorDim2(const TensorDim2& t1);
-    TensorDim2(int SizeDim1, int SizeDim2, std::string Name);
-    TensorDim2(int SizeDim = 4, std::string Name = "none");
+    TensorDim2(unsigned int SizeDim1, unsigned int SizeDim2, const char * Name);
+    TensorDim2(unsigned int SizeDim = 4, const char * Name = "none");
 
     void Print() const;
     
@@ -231,8 +228,8 @@ namespace TensorUtils{
   public:
 
     TensorDim3(const TensorDim3& t1);
-    TensorDim3(int SizeDim1, int SizeDim2, int SizeDim3, std::string Name = "none");
-    TensorDim3(int SizeDim = 4, std::string Name = "none");
+    TensorDim3(unsigned int SizeDim1, unsigned int SizeDim2, unsigned int SizeDim3, const char * Name = "none");
+    TensorDim3(unsigned int SizeDim = 4, const char * Name = "none");
     
     TComplex At(const unsigned int i, const unsigned int j, const unsigned int k)const;
     void Set(const unsigned int i, const unsigned int j, const unsigned int k, TComplex c);
@@ -329,8 +326,8 @@ namespace TensorUtils{
 
   public:
 
-    TensorDim4(int SizeDim1, int SizeDim2, int SizeDim3, int SizeDim4, std::string Name = "none");
-    TensorDim4(int SizeDim = 4, std::string Name = "none");
+    TensorDim4(unsigned int SizeDim1, unsigned int SizeDim2, unsigned int SizeDim3, unsigned int SizeDim4, const char * Name = "none");
+    TensorDim4(unsigned int SizeDim = 4, const char * Name = "none");
     TComplex At(const unsigned int i, const unsigned int j, const unsigned int k, const unsigned int l) const;
     void Set(int i, int j, int k, int l, TComplex c);
     TComplex& operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4);

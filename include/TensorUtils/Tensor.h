@@ -27,8 +27,8 @@ namespace TensorUtils{
     friend Tensor Imaginary(const Tensor& t1);
     friend Tensor Abs(const Tensor& t1);
 
-    std::string GetName(){
-      return Name;
+    const char* GetName() const{
+      return Name.c_str();
     };
 
     friend Tensor operator-(const Tensor &t1);
