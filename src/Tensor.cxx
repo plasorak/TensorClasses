@@ -78,154 +78,127 @@ namespace TensorUtils{
     return Element[GlobalIndex];
   };
 
-  // -----------------------------------------------------
-  // Tensor friend functions
-  // -----------------------------------------------------
+  void Tensor::Minus(){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = - this->Element[i];
+  };
 
-  // Returning negative value
-  Tensor operator-(const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = -nTensor.Element[i];
-    return nTensor;
-  }
+  void Tensor::OneOverElementWise(){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = 1. / this->Element[i];
+  };
+
+  void Tensor::Real(){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i].Re();
+  };
+
+  void Tensor::Imaginary(){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i].Im();
+  };
+
+  void Tensor::Abs(){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = TComplex::Abs(this->Element[i]);
+  };
+
 
   // Scalar operations
-  Tensor operator+(const TComplex c, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] + c;
-    return nTensor;
-  }
+  void Tensor::Add(const TComplex c){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] + c;
+  };
+  
+  void Tensor::Subtract(const TComplex c){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] - c;
+  };
 
-  Tensor operator-(const TComplex c, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = c - nTensor.Element[i];
-    return nTensor;
-  }
+  void Tensor::Multiply(const TComplex c){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] * c;
+  };
 
-  Tensor operator*(const TComplex c, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] * c;
-    return nTensor;
-  }
-
-  Tensor operator/(const TComplex c, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = c / nTensor.Element[i];
-    return nTensor;
-  }
-
-  Tensor operator+(const Tensor &t1, const TComplex c){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] + c;
-    return nTensor;
-  }
-
-  Tensor operator-(const Tensor &t1, const TComplex c){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] - c;
-    return nTensor;
-  }
-
-  Tensor operator*(const Tensor &t1, const TComplex c){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] * c;
-    return nTensor;
-  }
-
-  Tensor operator/(const Tensor &t1, const TComplex c){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] / c;
-    return nTensor;
-  }
+  void Tensor::Divide(const TComplex c){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] / c;
+  };
 
 
+  void Tensor::Add(const double d){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] + d;
+  };
 
+  void Tensor::Subtract(const double d){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] - d;
+  };
 
-  Tensor operator+(const double d, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] + d;
-    return nTensor;
-  }
+  void Tensor::Multiply(const double d){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] * d;
+  };
 
-  Tensor operator-(const double d, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = d - nTensor.Element[i];
-    return nTensor;
-  }
-
-  Tensor operator*(const double d, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] * d;
-    return nTensor;
-  }
-
-  Tensor operator/(const double d, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = d / nTensor.Element[i];
-    return nTensor;
-  }
-
-  Tensor operator+(const Tensor &t1, const double d){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] + d;
-    return nTensor;
-  }
-
-  Tensor operator-(const Tensor &t1, const double d){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] - d;
-    return nTensor;
-  }
-
-  Tensor operator*(const Tensor &t1, const double d){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] * d;
-    return nTensor;
-  }
-
-  Tensor operator/(const Tensor &t1, const double d){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] / d;
-    return nTensor;
-  }
+  void Tensor::Divide(const double d){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] / d;
+  };
 
   // Entry by entry operations
-  Tensor operator+(const Tensor &t1, const Tensor &t2){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] + t1.Element[i];
-    return nTensor;
-  }
+  void Tensor::Add(const Tensor &t1){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] + t1.Element[i];
+  };
 
-  Tensor operator-(const Tensor &t1, const Tensor &t2){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] - t1.Element[i];
-    return nTensor;
-  }
+  void Tensor::Subtract(const Tensor &t1){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] - t1.Element[i];
+  };
+
+  void Tensor::MultiplyElementWise(const Tensor &t1){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] * t1.Element[i];
+  };
+
+  void Tensor::DivideElementWise(const Tensor &t1){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] / t1.Element[i];
+  };
+
+  void Tensor::Add(const int c){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] + (double)c;
+  };
+
+  void Tensor::Subtract(const int c){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] - (double)c;
+  };
+
+  void Tensor::Multiply(const int c){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] * (double)c;
+  };
+
+  void Tensor::Divide(const int c){
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      this->Element[i] = this->Element[i] / (double)c;
+  };
+
+  bool Tensor::IsEqual(double d) const{
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      if(TComplex::Abs(this->Element[i]) != d)
+	return false;
+    return true;
+  };
 
   // Boolean operations
-  bool operator==(const Tensor &t1, const Tensor &t2){
+  bool Tensor::IsEqual(const Tensor &t1) const{
 
     // First chekc the rank of the tensor
-    if(t2.Dim != t1.Dim)
+    if(this->Dim != t1.Dim)
       return false;
 
     bool flag = true;
@@ -233,7 +206,7 @@ namespace TensorUtils{
 
     // Then check the number of element for each dim
     while(flag && i < t1.DimSize.size()){
-      if(t2.DimSize[i] != t1.DimSize[i])
+      if(this->DimSize[i] != t1.DimSize[i])
 	flag = false;
     }
     if(!flag)
@@ -243,218 +216,112 @@ namespace TensorUtils{
     i = 0;
     // Then check the element by element
     while(flag && i < t1.Element.size()){
-      if(t2.Element[i].Im() != t1.Element[i].Im() || t2.Element[i].Re() != t1.Element[i].Re())
+      if(this->Element[i].Re() != t1.Element[i].Re() || this->Element[i].Im() != t1.Element[i].Im())
 	flag = false;
     }
     return flag;
   };
 
-  bool operator!=(const Tensor &t1, const Tensor &t2){
-    return !(t1 == t2);
+  bool Tensor::IsDifferent(const Tensor &t1) const{
+    return !IsEqual(t1);
   };
 
-  Tensor Real(const Tensor& t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = t1.Element[i].Re();
-    return nTensor;
+  bool Tensor::IsBiggerOrEqual(const Tensor &t1) const{
+
+    // First chekc the rank of the tensor
+    if(this->Dim != t1.Dim)
+      return false;
+
+    bool flag = true;
+    unsigned int i = 0;
+
+    // Then check the number of element for each dim
+    while(flag && i < t1.DimSize.size()){
+      if(this->DimSize[i] != t1.DimSize[i])
+	flag = false;
+    }
+    if(!flag)
+      return flag;
+
+    flag = true;
+    i = 0;
+    // Then check the element by element
+    while(flag && i < t1.Element.size()){
+      if(TComplex::Abs(this->Element[i]) <= TComplex::Abs(t1.Element[i]))
+	flag = false;
+    }
+    return flag;
   };
 
-  Tensor Imaginary(const Tensor& t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = t1.Element[i].Im();
-    return nTensor;
+  bool Tensor::IsSmaller(const Tensor &t1) const{
+    return !IsBiggerOrEqual(t1);
   };
-
-  Tensor Abs(const Tensor& t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = TComplex::Abs(t1.Element[i]);
-    return nTensor;
-  };
-
-  Tensor operator+(const int c, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] + (double)c;
-    return nTensor;
-  }
-
-  Tensor operator-(const int c, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = (double)c - nTensor.Element[i];
-    return nTensor;
-  }
-
-  Tensor operator*(const int c, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] * (double)c;
-    return nTensor;
-  }
-
-  Tensor operator/(const int c, const Tensor &t1){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = (double)c / nTensor.Element[i];
-    return nTensor;
-  }
-
-  Tensor operator+(const Tensor &t1, const int c){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] + (double)c;
-    return nTensor;
-  }
-
-  Tensor operator-(const Tensor &t1, const int c){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] - (double)c; 
-    return nTensor;
-  }
-
-  Tensor operator*(const Tensor &t1, const int c){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] * (double)c; 
-    return nTensor;
-  }
-
-  Tensor operator/(const Tensor &t1, const int c){
-    Tensor nTensor(t1);
-    for(unsigned int i = 0; i < nTensor.Element.size(); i++)
-      nTensor.Element[i] = nTensor.Element[i] / (double)c; 
-    return nTensor;
-  }
   
+  bool Tensor::IsSmallerOrEqual(const Tensor &t1) const{
+    return IsSmaller(t1) || IsEqual(t1);
+  };
+  
+  bool Tensor::IsBigger(const Tensor &t1) const{
+    return !IsSmallerOrEqual(t1);
+  };
+  
+  bool Tensor::IsDifferent(double d) const{
+    return !IsEqual(d);
+  };
 
-  bool operator==(double d, const Tensor &T){
-    for(unsigned int i = 0; i < T.Element.size(); i++)
-      if(TComplex::Abs(T.Element[i]) != d)
+  bool Tensor::IsBiggerOrEqual(double d) const{
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      if(TMath::Abs(d) <= TComplex::Abs(this->Element[i]))
 	return false;
     return true;
-  }
+  };
 
-  bool operator!=(double d, const Tensor &T){
-    return !(d == T);
-  }
-
-  bool operator>=(double d, const Tensor &T){
-    for(unsigned int i = 0; i < T.Element.size(); i++)
-      if(TMath::Abs(d) < TComplex::Abs(T.Element[i]))
+  bool Tensor::IsSmallerOrEqual(double d) const{
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      if(TMath::Abs(d) >= TComplex::Abs(this->Element[i]))
 	return false;
     return true;
-  }
+  };
 
-
-  bool operator<=(double d, const Tensor &T){
-    for(unsigned int i = 0; i < T.Element.size(); i++)
-      if(TMath::Abs(d) > TComplex::Abs(T.Element[i]))
+  bool Tensor::IsBigger (double d) const{
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      if(TMath::Abs(d) < TComplex::Abs(this->Element[i]))
 	return false;
     return true;
-  }
+  };
 
-  bool operator> (double d, const Tensor &T){
-    for(unsigned int i = 0; i < T.Element.size(); i++)
-      if(TMath::Abs(d) <= TComplex::Abs(T.Element[i]))
+  bool Tensor::IsSmaller (double d) const{
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      if(TMath::Abs(d) > TComplex::Abs(this->Element[i]))
 	return false;
     return true;
-  }
+  };
 
-
-  bool operator< (double d, const Tensor &T){
-    for(unsigned int i = 0; i < T.Element.size(); i++)
-      if(TMath::Abs(d) >= TComplex::Abs(T.Element[i]))
+  bool Tensor::IsEqual(TComplex d) const{
+    for(unsigned int i = 0; i < this->Element.size(); i++)
+      if(this->Element[i].Re() == d.Re() && this->Element[i].Im() == d.Im())
 	return false;
     return true;
-  }
+  };
 
-  bool operator==(const Tensor &T, double d){
-    return (d == T);
-  }
+  bool Tensor::IsDifferent(TComplex d) const{
+    return !IsEqual(d);
+  };
 
-  bool operator!=(const Tensor &T, double d){
-    return (d != T);
-  }
+  bool Tensor::IsBiggerOrEqual(TComplex d) const{
+    return IsBiggerOrEqual(TComplex::Abs(d));
+  };
 
-  bool operator>=(const Tensor &T, double d){
-    for(unsigned int i = 0; i < T.Element.size(); i++)
-      if(TComplex::Abs(T.Element[i]) < TMath::Abs(d))
-	return false;
-    return true;
-  }
+  bool Tensor::IsSmallerOrEqual(TComplex d) const{
+    return IsSmallerOrEqual(TComplex::Abs(d));
+  };
 
-  bool operator<=(const Tensor &T, double d){
-    for(unsigned int i = 0; i < T.Element.size(); i++)
-      if(TComplex::Abs(T.Element[i]) > TMath::Abs(d))
-	return false;
-    return true;
-  }
+  bool Tensor::IsBigger (TComplex d) const{
+    return IsBigger(TComplex::Abs(d));
+  };
 
-  bool operator> (const Tensor &T, double d){
-    for(unsigned int i = 0; i < T.Element.size(); i++)
-      if(TComplex::Abs(T.Element[i]) <= TMath::Abs(d))
-	return false;
-    return true;
-  }
-
-  bool operator< (const Tensor &T, double d){
-    for(unsigned int i = 0; i < T.Element.size(); i++)
-      if(TComplex::Abs(T.Element[i]) >= TMath::Abs(d))
-	return false;
-    return true;
-  }
-
-  bool operator==(TComplex d, const Tensor &T){
-    return (TComplex::Abs(d) == T);
-  }
-
-  bool operator!=(TComplex d, const Tensor &T){
-    return !(d == T);
-  }
-
-  bool operator>=(TComplex d, const Tensor &T){
-    return (TComplex::Abs(d) >= T);
-  }
-
-  bool operator<=(TComplex d, const Tensor &T){
-    return (TComplex::Abs(d) <= T);
-  }
-
-  bool operator> (TComplex d, const Tensor &T){
-    return (TComplex::Abs(d) > T);
-  }
-
-  bool operator< (TComplex d, const Tensor &T){
-    return (TComplex::Abs(d) < T);
-  }
-
-  bool operator==(const Tensor &T, TComplex d){
-    return (TComplex::Abs(d) == T);
-  }
-
-  bool operator!=(const Tensor &T, TComplex d){
-    return (TComplex::Abs(d) != T);
-  }
-
-  bool operator>=(const Tensor &T, TComplex d){
-    return (TComplex::Abs(d) <= T);
-  }
-
-  bool operator<=(const Tensor &T, TComplex d){
-    return (TComplex::Abs(d) >= T);
-  }
-
-
-  bool operator> (const Tensor &T, TComplex d){
-    return (TComplex::Abs(d) < T);
-  }
-
-  bool operator< (const Tensor &T, TComplex d){
-    return (TComplex::Abs(d) > T);
-  }
+  bool Tensor::IsSmaller (TComplex d) const{
+    return IsSmaller(TComplex::Abs(d));
+  };
 
 }

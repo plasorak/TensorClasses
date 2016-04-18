@@ -23,88 +23,57 @@ namespace TensorUtils{
     unsigned int GetDimSize(const unsigned int i = 0) const;
     TComplex SumOver() const;
 
-    friend Tensor Real(const Tensor& t1);
-    friend Tensor Imaginary(const Tensor& t1);
-    friend Tensor Abs(const Tensor& t1);
-
-    const char* GetName() const{
-      return Name.c_str();
-    };
-
-    friend Tensor operator-(const Tensor &t1);
+    const char* GetName() const{ return Name; };
 
     Tensor& operator=(const Tensor &t1);
 
-    friend Tensor operator+(const int c, const Tensor &t1);
-    friend Tensor operator-(const int c, const Tensor &t1);
-    friend Tensor operator*(const int c, const Tensor &t1);
-    friend Tensor operator/(const int c, const Tensor &t1);
+    virtual void Real();
+    virtual void Imaginary();
+    virtual void Abs();
+    virtual void Minus();
+    virtual void OneOverElementWise();
 
-    friend Tensor operator+(const Tensor &t1, const int c);
-    friend Tensor operator-(const Tensor &t1, const int c);
-    friend Tensor operator*(const Tensor &t1, const int c);
-    friend Tensor operator/(const Tensor &t1, const int c);
 
-    friend Tensor operator+(const TComplex c, const Tensor &t1);
-    friend Tensor operator-(const TComplex c, const Tensor &t1);
-    friend Tensor operator*(const TComplex c, const Tensor &t1);
-    friend Tensor operator/(const TComplex c, const Tensor &t1);
+    virtual void Add      (const int c);
+    virtual void Subtract (const int c);
+    virtual void Multiply (const int c);
+    virtual void Divide   (const int c);
+ 
+    virtual void Add      (const TComplex c);
+    virtual void Subtract (const TComplex c);
+    virtual void Multiply (const TComplex c);
+    virtual void Divide   (const TComplex c);
 
-    friend Tensor operator+(const Tensor &t1, const TComplex c);
-    friend Tensor operator-(const Tensor &t1, const TComplex c);
-    friend Tensor operator*(const Tensor &t1, const TComplex c);
-    friend Tensor operator/(const Tensor &t1, const TComplex c);
+    virtual void Add      (const double d);
+    virtual void Subtract (const double d);
+    virtual void Multiply (const double d);
+    virtual void Divide   (const double d);
 
-    friend Tensor operator+(const double d, const Tensor &t1);
-    friend Tensor operator-(const double d, const Tensor &t1);
-    friend Tensor operator*(const double d, const Tensor &t1);
-    friend Tensor operator/(const double d, const Tensor &t1);
+    virtual void Add                 (const Tensor &t);
+    virtual void Subtract            (const Tensor &t);
+    virtual void MultiplyElementWise (const Tensor &t);
+    virtual void DivideElementWise   (const Tensor &t);
 
-    friend Tensor operator+(const Tensor &t1, const double d);
-    friend Tensor operator-(const Tensor &t1, const double d);
-    friend Tensor operator*(const Tensor &t1, const double d);
-    friend Tensor operator/(const Tensor &t1, const double d);
+    virtual bool IsEqual          (const Tensor &t) const;
+    virtual bool IsDifferent      (const Tensor &t) const;
+    virtual bool IsBiggerOrEqual  (const Tensor &t) const;
+    virtual bool IsSmallerOrEqual (const Tensor &t) const;
+    virtual bool IsBigger         (const Tensor &t) const;
+    virtual bool IsSmaller        (const Tensor &t) const;
 
-    friend Tensor operator+(const Tensor &t1, const Tensor &t2);
-    friend Tensor operator-(const Tensor &t1, const Tensor &t2);
-    
-    friend Tensor ElementWiseMult(const Tensor &t1, const Tensor &t2); // to go in tensorutils
-    
-    friend bool operator==(const Tensor &t1, const Tensor &t2);
-    friend bool operator!=(const Tensor &t1, const Tensor &t2);
-    friend bool operator>=(const Tensor &t1, const Tensor &t2);
-    friend bool operator<=(const Tensor &t1, const Tensor &t2);
-    friend bool operator> (const Tensor &t1, const Tensor &t2);
-    friend bool operator< (const Tensor &t1, const Tensor &t2);
+    virtual bool IsEqual          (const double d) const;
+    virtual bool IsDifferent      (const double d) const;
+    virtual bool IsBiggerOrEqual  (const double d) const;
+    virtual bool IsSmallerOrEqual (const double d) const;
+    virtual bool IsBigger         (const double d) const;
+    virtual bool IsSmaller        (const double d) const;
 
-    friend bool operator==(const double d, const Tensor &t1);
-    friend bool operator!=(const double d, const Tensor &t1);
-    friend bool operator>=(const double d, const Tensor &t1);
-    friend bool operator<=(const double d, const Tensor &t1);
-    friend bool operator> (const double d, const Tensor &t1);
-    friend bool operator< (const double d, const Tensor &t1);
-
-    friend bool operator==(const Tensor &t1, const double d);
-    friend bool operator!=(const Tensor &t1, const double d);
-    friend bool operator>=(const Tensor &t1, const double d);
-    friend bool operator<=(const Tensor &t1, const double d);
-    friend bool operator> (const Tensor &t1, const double d);
-    friend bool operator< (const Tensor &t1, const double d);
-
-    friend bool operator==(const TComplex d, const Tensor &t1);
-    friend bool operator!=(const TComplex d, const Tensor &t1);
-    friend bool operator>=(const TComplex d, const Tensor &t1);
-    friend bool operator<=(const TComplex d, const Tensor &t1);
-    friend bool operator> (const TComplex d, const Tensor &t1);
-    friend bool operator< (const TComplex d, const Tensor &t1);
-
-    friend bool operator==(const Tensor &t1, const TComplex d);
-    friend bool operator!=(const Tensor &t1, const TComplex d);
-    friend bool operator>=(const Tensor &t1, const TComplex d);
-    friend bool operator<=(const Tensor &t1, const TComplex d);
-    friend bool operator> (const Tensor &t1, const TComplex d);
-    friend bool operator< (const Tensor &t1, const TComplex d);
-
+    virtual bool IsEqual          (const TComplex d) const;
+    virtual bool IsDifferent      (const TComplex d) const;
+    virtual bool IsBiggerOrEqual  (const TComplex d) const;
+    virtual bool IsSmallerOrEqual (const TComplex d) const;
+    virtual bool IsBigger         (const TComplex d) const;
+    virtual bool IsSmaller        (const TComplex d) const;
 
   protected:
 
@@ -112,7 +81,7 @@ namespace TensorUtils{
 
     std::vector< TComplex > Element;
     std::vector< unsigned int >  DimSize;
-    std::string Name;
+    const char * Name;
     unsigned int Dim;
 
     virtual bool CheckIndex() const {return false;};

@@ -17,7 +17,11 @@ namespace TensorUtils{
 
   TensorDim4::TensorDim4(const TensorDim4& t1){
     this->Name = t1.Name;
-    this->Dim  = t1.Dim;
+    if(t1.Dim != 4){
+      std::cerr << "The tensor is not of dimension 4!" << std::endl;
+      exit(1);	
+    }
+    this->Dim = t1.Dim;
     for(unsigned int i = 0; i < t1.Element.size(); i++)
       this->Element.push_back(t1.Element[i]);
     for(unsigned int i = 0; i < t1.DimSize.size(); i++)
@@ -25,7 +29,7 @@ namespace TensorUtils{
   };
 
 
-  TensorDim4::TensorDim4(unsigned int SizeDim1, unsigned int SizeDim2, unsigned int SizeDim3, unsigned int SizeDim4, const char * Name){
+  TensorDim4::TensorDim4(const char * Name, unsigned int SizeDim1, unsigned int SizeDim2, unsigned int SizeDim3, unsigned int SizeDim4){
     this->Name = Name;
     DimSize.clear();
     DimSize.reserve(4);
@@ -48,8 +52,25 @@ namespace TensorUtils{
   
 
 
-  TensorDim4::TensorDim4(unsigned int SizeDim, const char * Name){
-    *this = TensorDim4(SizeDim, SizeDim, SizeDim, SizeDim, Name);
+  TensorDim4::TensorDim4(const char * Name, unsigned int SizeDim){
+    this->Name = Name;
+    DimSize.clear();
+    DimSize.reserve(4);
+    DimSize.push_back(SizeDim);
+    DimSize.push_back(SizeDim);
+    DimSize.push_back(SizeDim);
+    DimSize.push_back(SizeDim);
+    Element.clear();
+    Element.reserve(DimSize[0]*DimSize[1]*DimSize[2]*DimSize[3]);
+    TComplex Zero(0.,0.);
+    for(int i1 = 0; i1 < SizeDim; i1++){
+      for(int i2 = 0; i2 < SizeDim; i2++){
+	for(int i3 = 0; i3 < SizeDim; i3++){
+	  for(int i4 = 0; i4 < SizeDim; i4++)
+	    Element.push_back(Zero);
+	}
+      }
+    }
   };
 
   TComplex TensorDim4::At(const unsigned int i,
@@ -71,7 +92,7 @@ namespace TensorUtils{
   };
 
   void TensorDim4::Print() const{
-    std::cout << "Tensor Dim4 with name '" << Name.c_str() << "'" << std::endl;
+    std::cout << "Tensor Dim4 with name '" << Name << "'" << std::endl;
     for(unsigned int i = 0; i < Dim; i++){
       std::cout << "Dimension[" << i << "] size: " << DimSize[i] << std::endl;
       std::cout << "Element[<dimension>, <position>]" << std::endl;
@@ -104,4 +125,203 @@ namespace TensorUtils{
     return Element[GetGlobalIndex(i1, i2, i3, i4)];
   };
 
+
+  TensorDim4 Real(const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Real();
+    return t;
+  };
+
+  TensorDim4 Imaginary(const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Imaginary();
+    return t;
+  };
+
+  TensorDim4 Abs(const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Abs();
+    return t;
+  };
+  
+  TensorDim4 operator+(const int c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Add(c);
+    return t;
+  };
+  TensorDim4 operator-(const int c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Minus();
+    t.Add(c);
+    return t;
+  };
+  TensorDim4 operator*(const int c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Multiply(c);
+    return t;
+  };
+  TensorDim4 operator/(const int c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.OneOverElementWise();
+    t.Multiply(c);
+    return t;
+  };
+
+  TensorDim4 operator+(const TensorDim4 &t1, const int c){
+    TensorDim4 t(t1);
+    t.Add(c);
+    return t;
+  };
+  TensorDim4 operator-(const TensorDim4 &t1, const int c){
+    TensorDim4 t(t1);
+    t.Subtract(c);
+    return t;
+  };
+  TensorDim4 operator*(const TensorDim4 &t1, const int c){
+    TensorDim4 t(t1);
+    t.Multiply(c);
+    return t;
+  };
+  TensorDim4 operator/(const TensorDim4 &t1, const int c){
+    TensorDim4 t(t1);
+    t.Divide(c);
+    return t;
+  };
+
+  TensorDim4 operator+(TComplex c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Add(c);
+    return t;
+  };
+  TensorDim4 operator-(TComplex c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Minus();
+    t.Add(c);
+    return t;
+  };
+  TensorDim4 operator*(TComplex c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Multiply(c);
+    return t;
+  };
+  TensorDim4 operator/(TComplex c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.OneOverElementWise();
+    t.Multiply(c);
+    return t;
+  };
+
+  TensorDim4 operator+(const TensorDim4 &t1, TComplex c){
+    TensorDim4 t(t1);
+    t.Add(c);
+    return t;
+  };
+  TensorDim4 operator-(const TensorDim4 &t1, TComplex c){
+    TensorDim4 t(t1);
+    t.Subtract(c);
+    return t;
+  };
+  TensorDim4 operator*(const TensorDim4 &t1, TComplex c){
+    TensorDim4 t(t1);
+    t.Multiply(c);
+    return t;
+  };
+  TensorDim4 operator/(const TensorDim4 &t1, TComplex c){
+    TensorDim4 t(t1);
+    t.Divide(c);
+    return t;
+  };
+
+  TensorDim4 operator+(double c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Add(c);
+    return t;
+  };
+  TensorDim4 operator-(double c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Minus();
+    t.Add(c);
+    return t;
+  };
+  TensorDim4 operator*(double c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.Multiply(c);
+    return t;
+  };
+  TensorDim4 operator/(double c, const TensorDim4 &t1){
+    TensorDim4 t(t1);
+    t.OneOverElementWise();
+    t.Multiply(c);
+    return t;
+  };
+
+  TensorDim4 operator+(const TensorDim4 &t1, double c){
+    TensorDim4 t(t1);
+    t.Add(c);
+    return t;
+  };
+  TensorDim4 operator-(const TensorDim4 &t1, double c){
+    TensorDim4 t(t1);
+    t.Subtract(c);
+    return t;
+  };
+  TensorDim4 operator*(const TensorDim4 &t1, double c){
+    TensorDim4 t(t1);
+    t.Multiply(c);
+    return t;
+  };
+  TensorDim4 operator/(const TensorDim4 &t1, double c){
+    TensorDim4 t(t1);
+    t.Divide(c);
+    return t;
+  };
+
+  TensorDim4 operator+(const TensorDim4 &t1, const TensorDim4 &t2){
+    TensorDim4 t(t1);
+    t.Add(t2);
+    return t;
+  };
+
+  TensorDim4 operator-(const TensorDim4 &t1, const TensorDim4 &t2){
+    TensorDim4 t(t1);
+    t.Subtract(t2);
+    return t;
+  };
+
+  bool operator==(const TensorDim4 &t1, const TensorDim4 &t2){ return t1.IsEqual(t2);          };
+  bool operator!=(const TensorDim4 &t1, const TensorDim4 &t2){ return t1.IsDifferent(t2);      };
+  bool operator>=(const TensorDim4 &t1, const TensorDim4 &t2){ return t1.IsBiggerOrEqual(t2);  };
+  bool operator<=(const TensorDim4 &t1, const TensorDim4 &t2){ return t1.IsSmallerOrEqual(t2); };
+  bool operator> (const TensorDim4 &t1, const TensorDim4 &t2){ return t1.IsBigger(t2);         };
+  bool operator< (const TensorDim4 &t1, const TensorDim4 &t2){ return t1.IsSmaller(t2);        };
+
+  bool operator==(double d, const TensorDim4 &t1){ return t1.IsEqual(d);          };
+  bool operator!=(double d, const TensorDim4 &t1){ return t1.IsDifferent(d);      };
+  bool operator>=(double d, const TensorDim4 &t1){ return t1.IsSmallerOrEqual(d); };
+  bool operator<=(double d, const TensorDim4 &t1){ return t1.IsBiggerOrEqual(d);  };
+  bool operator> (double d, const TensorDim4 &t1){ return t1.IsSmaller(d);        };
+  bool operator< (double d, const TensorDim4 &t1){ return t1.IsBigger(d);         };
+
+  bool operator==(const TensorDim4 &t1, double d){ return t1.IsEqual(d);          };
+  bool operator!=(const TensorDim4 &t1, double d){ return t1.IsDifferent(d);      };
+  bool operator>=(const TensorDim4 &t1, double d){ return t1.IsBiggerOrEqual(d);  };
+  bool operator<=(const TensorDim4 &t1, double d){ return t1.IsSmallerOrEqual(d); };
+  bool operator> (const TensorDim4 &t1, double d){ return t1.IsBigger(d);         };
+  bool operator< (const TensorDim4 &t1, double d){ return t1.IsSmaller(d);        };
+
+  bool operator==(TComplex d, const TensorDim4 &t1){ return t1.IsEqual(d);          };
+  bool operator!=(TComplex d, const TensorDim4 &t1){ return t1.IsDifferent(d);      };
+  bool operator>=(TComplex d, const TensorDim4 &t1){ return t1.IsSmallerOrEqual(d); };
+  bool operator<=(TComplex d, const TensorDim4 &t1){ return t1.IsBiggerOrEqual(d);  };
+  bool operator> (TComplex d, const TensorDim4 &t1){ return t1.IsSmaller(d);        };
+  bool operator< (TComplex d, const TensorDim4 &t1){ return t1.IsBigger(d);         };
+
+  bool operator==(const TensorDim4 &t1, TComplex d){ return t1.IsEqual(d);          };
+  bool operator!=(const TensorDim4 &t1, TComplex d){ return t1.IsDifferent(d);      };
+  bool operator>=(const TensorDim4 &t1, TComplex d){ return t1.IsBiggerOrEqual(d);  };
+  bool operator<=(const TensorDim4 &t1, TComplex d){ return t1.IsSmallerOrEqual(d); };
+  bool operator> (const TensorDim4 &t1, TComplex d){ return t1.IsBigger(d);         };
+  bool operator< (const TensorDim4 &t1, TComplex d){ return t1.IsSmaller(d);        };
+
+  
 }

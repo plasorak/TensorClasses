@@ -2,10 +2,8 @@
 #include "gtest/gtest.h"
 
 // project specific include
-// #include "TensorUtils/Example.h"
 #include "TensorUtils/Tensor.h"
-#include "TensorUtils/TensorDim1.h"
-#include "TensorUtils/TensorDim2.h"
+#include "TensorUtils/TensorDim.h"
 
 using namespace TensorUtils;
 
@@ -15,7 +13,7 @@ TEST(TensorDim1, DoesThings) {
   //EXPECT_EQ(1, td.GetDim());
   EXPECT_EQ(4, td.GetDimSize());
   
-  td = TensorDim1(10);
+  td = TensorDim1("10",10);
   //EXPECT_EQ(1,td.GetDim());
 
   // e.set(12);

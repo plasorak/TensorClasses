@@ -12,9 +12,7 @@ namespace TensorUtils {
   TensorDim3 LeviCivitaDim3();
   TensorDim4 LeviCivitaDim4();
 
-  TensorDim2 MetricDim2();
-  TensorDim3 MetricDim3();
-  TensorDim4 MetricDim4();
+  TensorDim2 MetricDim();
 
   TensorDim2 UnityDim2();
   TensorDim3 UnityDim3();
