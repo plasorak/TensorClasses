@@ -22,21 +22,21 @@ namespace TensorUtils{
 
   private:
 
-    bool         CheckIndex(const unsigned int i) const;
-    unsigned int GetGlobalIndex(const unsigned int i) const;
+    bool CheckIndex(const int i) const;
+    int  GetGlobalIndex(const int i) const;
 
   public:
 
     //TensorDim1(const Tensor& t1);
     TensorDim1(const TensorDim1& t1);
-    TensorDim1(const char * Name = "none", unsigned int SizeDim = 4);
+    TensorDim1(const char * Name = "none", int SizeDim = 4);
 
     void Print() const;
     
-    TComplex At(const unsigned int i) const;
-    void Set(const unsigned int i, TComplex c);
-    TComplex& operator()(const unsigned int i);
-    TComplex  operator()(const unsigned int i) const;
+    TComplex At(const int i) const;
+    void Set(const int i, TComplex c);
+    TComplex& operator()(const int i);
+    TComplex  operator()(const int i) const;
 
     using Tensor::operator=;
     using Tensor::SumOver;
@@ -58,6 +58,11 @@ namespace TensorUtils{
     using Tensor::Abs;
     using Tensor::Minus;
     using Tensor::OneOverElementWise;
+    using Tensor::MultiplyElementWise;
+    using Tensor::DivideElementWise;
+ 
+    using Tensor::AssertGoodDim;
+    using Tensor::GoodDim;
 
     friend TensorDim1 Real(const TensorDim1 &t1);
     friend TensorDim1 Imaginary(const TensorDim1 &t1);
@@ -138,19 +143,19 @@ namespace TensorUtils{
     
   private:
 
-    bool         CheckIndex(const unsigned int i, const unsigned int j) const;
-    unsigned int GetGlobalIndex(const unsigned int i, const unsigned int j) const;
+    bool         CheckIndex(const int i, const int j) const;
+    int GetGlobalIndex(const int i, const int j) const;
 
   public:
 
     TensorDim2(const TensorDim2& t1);
-    TensorDim2(const char * Name, unsigned int SizeDim1, unsigned int SizeDim2);
-    TensorDim2(const char * Name = "none", unsigned int SizeDim = 4);
+    TensorDim2(const char * Name, int SizeDim1, int SizeDim2);
+    TensorDim2(const char * Name = "none", int SizeDim = 4);
 
     void Print() const;
     
-    TComplex At(const unsigned int i, const unsigned int j) const;
-    void Set(const unsigned int i, const unsigned int j, TComplex c);
+    TComplex At(const int i, const int j) const;
+    void Set(const int i, const int j, TComplex c);
     TComplex& operator()(const int i1, const int i2);
     TComplex  operator()(const int i1, const int i2) const;
   
@@ -173,6 +178,11 @@ namespace TensorUtils{
     using Tensor::Abs;
     using Tensor::Minus;
     using Tensor::OneOverElementWise;
+    using Tensor::MultiplyElementWise;
+    using Tensor::DivideElementWise;
+
+    using Tensor::AssertGoodDim;
+    using Tensor::GoodDim;
 
     friend TensorDim2 Real(const TensorDim2 &t1);
     friend TensorDim2 Imaginary(const TensorDim2 &t1);
@@ -255,19 +265,19 @@ namespace TensorUtils{
     
   private:
     
-    bool CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k)const;
-    unsigned int GetGlobalIndex(const unsigned int i1, const unsigned int i2, const unsigned int i3)const;
+    bool CheckIndex(const int i, const int j, const int k)const;
+    int GetGlobalIndex(const int i1, const int i2, const int i3)const;
   
   public:
 
     TensorDim3(const TensorDim3& t1);
-    TensorDim3(const char * Name, unsigned int SizeDim1, unsigned int SizeDim2, unsigned int SizeDim3);
-    TensorDim3(const char * Name = "none", unsigned int SizeDim = 4);
+    TensorDim3(const char * Name, int SizeDim1, int SizeDim2, int SizeDim3);
+    TensorDim3(const char * Name = "none", int SizeDim = 4);
     
-    TComplex At(const unsigned int i, const unsigned int j, const unsigned int k)const;
-    void Set(const unsigned int i, const unsigned int j, const unsigned int k, TComplex c);
-    TComplex& operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3);
-    TComplex operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3) const;
+    TComplex At(const int i, const int j, const int k)const;
+    void Set(const int i, const int j, const int k, TComplex c);
+    TComplex& operator()(const int i1, const int i2, const int i3);
+    TComplex operator()(const int i1, const int i2, const int i3) const;
     void Print() const;
 
     using Tensor::operator=;
@@ -289,7 +299,12 @@ namespace TensorUtils{
     using Tensor::Abs;
     using Tensor::Minus;
     using Tensor::OneOverElementWise;
-    
+    using Tensor::MultiplyElementWise;
+    using Tensor::DivideElementWise;
+
+    using Tensor::AssertGoodDim;
+    using Tensor::GoodDim;
+
     friend TensorDim3 Real(const TensorDim3 &t1);
     friend TensorDim3 Imaginary(const TensorDim3 &t1);
     friend TensorDim3 Abs(const TensorDim3 &t1);
@@ -369,17 +384,17 @@ namespace TensorUtils{
     
   private:
 
-    bool CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k, const unsigned int l) const;
-    unsigned int GetGlobalIndex(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4) const;
+    bool CheckIndex(const int i, const int j, const int k, const int l) const;
+    int GetGlobalIndex(const int i1, const int i2, const int i3, const int i4) const;
 
   public:
     TensorDim4(const TensorDim4& t1);
-    TensorDim4(const char * Name, unsigned int SizeDim1, unsigned int SizeDim2, unsigned int SizeDim3, unsigned int SizeDim4);
-    TensorDim4(const char * Name = "none", unsigned int SizeDim = 4);
-    TComplex At(const unsigned int i, const unsigned int j, const unsigned int k, const unsigned int l) const;
+    TensorDim4(const char * Name, int SizeDim1, int SizeDim2, int SizeDim3, int SizeDim4);
+    TensorDim4(const char * Name = "none", int SizeDim = 4);
+    TComplex At(const int i, const int j, const int k, const int l) const;
     void Set(int i, int j, int k, int l, TComplex c);
-    TComplex& operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4);
-    TComplex operator()(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4) const;
+    TComplex& operator()(const int i1, const int i2, const int i3, const int i4);
+    TComplex  operator()(const int i1, const int i2, const int i3, const int i4) const;
     void Print() const;
   
     using Tensor::operator=;
@@ -401,6 +416,11 @@ namespace TensorUtils{
     using Tensor::Abs;
     using Tensor::Minus;
     using Tensor::OneOverElementWise;
+    using Tensor::MultiplyElementWise;
+    using Tensor::DivideElementWise;
+
+    using Tensor::AssertGoodDim;
+    using Tensor::GoodDim;
 
     friend TensorDim4 Real(const TensorDim4 &t1);
     friend TensorDim4 Imaginary(const TensorDim4 &t1);

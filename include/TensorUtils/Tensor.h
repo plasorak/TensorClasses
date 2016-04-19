@@ -19,20 +19,26 @@ namespace TensorUtils{
     ~Tensor();
     TComplex At();
     void Set();
-    unsigned int GetDim() const;
-    unsigned int GetDimSize(const unsigned int i = 0) const;
+    int GetDim() const;
+    int GetDimSize(const int i = 0) const;
     TComplex SumOver() const;
 
     const char* GetName() const{ return Name; };
 
     Tensor& operator=(const Tensor &t1);
 
+    virtual bool AssertGoodDim(int Dim) const;
+    virtual bool AssertGoodDim(int Dim, int DimSize) const;
+    virtual bool AssertGoodDim(const Tensor &t1) const;
+    virtual bool GoodDim(int Dim) const;
+    virtual bool GoodDim(int Dim, int DimSize) const;
+    virtual bool GoodDim(const Tensor &t1) const;
+
     virtual void Real();
     virtual void Imaginary();
     virtual void Abs();
     virtual void Minus();
     virtual void OneOverElementWise();
-
 
     virtual void Add      (const int c);
     virtual void Subtract (const int c);
@@ -44,7 +50,7 @@ namespace TensorUtils{
     virtual void Multiply (const TComplex c);
     virtual void Divide   (const TComplex c);
 
-    virtual void Add      (const double d);
+    virtual void Add      (const double xd);
     virtual void Subtract (const double d);
     virtual void Multiply (const double d);
     virtual void Divide   (const double d);
@@ -80,18 +86,18 @@ namespace TensorUtils{
     Tensor(const Tensor& t1);
 
     std::vector< TComplex > Element;
-    std::vector< unsigned int >  DimSize;
+    std::vector< int >  DimSize;
     const char * Name;
-    unsigned int Dim;
+    int Dim;
 
     virtual bool CheckIndex() const {return false;};
-    virtual unsigned int GetGlobalIndex() const {return 0;};
+    virtual int GetGlobalIndex() const {return 0;};
     virtual void Print() const {};
 
     Tensor(){};
 
-    TComplex& operator()(const unsigned int GlobalIndex);
-    TComplex  operator()(const unsigned int GlobalIndex) const;
+    TComplex& operator()(const int GlobalIndex);
+    TComplex  operator()(const int GlobalIndex) const;
 
   };
 } 

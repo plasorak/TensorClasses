@@ -1,16 +1,17 @@
 #include "TensorUtils/TensorDim.h"
+#include "TString.h"
 
 namespace TensorUtils{
 
-  bool TensorDim1::CheckIndex(const unsigned int i) const{
+  bool TensorDim1::CheckIndex(const int i) const{
     return (i < DimSize[0]);
   };
 
-  unsigned int TensorDim1::GetGlobalIndex(const unsigned int i) const{
+  int TensorDim1::GetGlobalIndex(const int i) const{
     return i;
   };
   
-  TensorDim1::TensorDim1(const char *Name, unsigned int SizeDim){
+  TensorDim1::TensorDim1(const char *Name, int SizeDim){
     this->Name = Name;
     DimSize.clear();
     DimSize.reserve(1);
@@ -21,57 +22,55 @@ namespace TensorUtils{
 
     TComplex Zero(0.,0.);
     for(int i = 0; i < DimSize[0]; i++){
-      std::cout << "setting (" << i  << ") to " << Zero << std::endl;      
       Element.push_back(Zero);
-    }
+    }       
   };
 
 
   TensorDim1::TensorDim1(const TensorDim1& t1){
+    t1.AssertGoodDim(1);
     this->Name = t1.Name;
     this->Dim = t1.Dim;
-    for(unsigned int i = 0; i < t1.Element.size(); i++)
+    for(int i = 0; i < t1.Element.size(); i++)
       this->Element.push_back(t1.Element[i]);
-    for(unsigned int i = 0; i < t1.DimSize.size(); i++)
+    for(int i = 0; i < t1.DimSize.size(); i++)
       this->DimSize.push_back(t1.DimSize[i]);
   };
 
-  TComplex TensorDim1::At(const unsigned int i) const{
+  TComplex TensorDim1::At(const int i) const{
     if(!CheckIndex(i))
       exit(1);
     return Element[GetGlobalIndex(i)];
 
   };
 
-  void TensorDim1::Set(const unsigned int i, TComplex c){
-    if(CheckIndex(i))
-      Element[GetGlobalIndex(i)] = c;
-    else{
+  void TensorDim1::Set(const int i, TComplex c){
+    if(!CheckIndex(i))
       exit(1);
-      //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
-    }
+    Element[GetGlobalIndex(i)] = c;
+
   };
 
   void TensorDim1::Print() const{
+    std::cout << "______________________________________________________________________" << std::endl;
     std::cout << "TensorDim"<< this->DimSize.size() << " with name '" << Name << "'" << std::endl;
     std::cout << "Dimension(" << 0 << ") size: " << DimSize[0] << std::endl;
     std::cout << "Element(<position> = <globalposition>)" << std::endl;
-    for(unsigned int j = 0; j < DimSize[0]; j++){
-      std::cout << "Element(" << j << " = " << this->GetGlobalIndex(j) << ") = " << this->At(j) << std::endl;
+    for(int j = 0; j < DimSize[0]; j++){
+      std::cout << " Element(" << j << " = " << this->GetGlobalIndex(j) << ") = " << this->At(j) << std::endl;
     }
+    std::cout << "______________________________________________________________________" << std::endl;
   };
 
-  TComplex& TensorDim1::operator()(const unsigned int i){
+  TComplex& TensorDim1::operator()(const int i){
     if(!CheckIndex(i))
-      //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
       exit(1);
     return Element[GetGlobalIndex(i)];
   };
 
-  TComplex TensorDim1::operator()(const unsigned int i) const{
+  TComplex TensorDim1::operator()(const int i) const{
     if(!CheckIndex(i))
       exit(1);
-    //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
     return Element[GetGlobalIndex(i)];
   };
 
@@ -239,27 +238,20 @@ namespace TensorUtils{
 
   TensorDim1 operator*(const TensorDim2 &t1, const TensorDim1 &t2){
 
-    // First check the dimension of the matrix
-    if(t1.GetDim() != 2 || t2.GetDim() != 1){
-      std::cerr << "Can't do the matrix product, one of the tensor is not a matrix or vector" << std::endl;
-      exit(1);
-    }
+    // First check the dimension of the tensors
+    t1.AssertGoodDim(2);
+    t2.AssertGoodDim(1);
 
     // Then check that size are good for multiplication
     // (i * j) (j) = (i)
-    if(t1.GetDimSize(1) !=  t2.GetDimSize(0)){
-      std::cerr << "Can't do the matrix product, the matrix and vector sizes are not right" << std::endl;
-      exit(1);
-    }
-    char* resultName;
-    strcpy(resultName, t1.GetName());
-    strcat(resultName, t2.GetName());
-    TensorDim1 result(resultName, t1.GetDimSize(0));
+    t1.AssertGoodDim(1,t2.GetDimSize(0));
 
-    for(int i = 0; i < t1.GetDimSize(0); i++)
-      for(int j = 0; j < t2.GetDimSize(1); j++)
-	result(i) += t1(i,j)*t2(j);
+    TensorDim1 result(Form("(%sX%s)",t1.GetName(), t2.GetName()),t1.GetDimSize(0));
     
+    for(int i = 0; i < t1.GetDimSize(0); i++)
+      for(int j = 0; j < t2.GetDimSize(0); j++){
+	result(i) += t1(i,j)*t2(j);
+      }
     return result;
   };
 

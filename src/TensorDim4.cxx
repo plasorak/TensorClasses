@@ -2,13 +2,13 @@
 
 namespace TensorUtils{
 
-  bool TensorDim4::CheckIndex(const unsigned int i, const unsigned int j, const unsigned int k, const unsigned int l) const{
+  bool TensorDim4::CheckIndex(const int i, const int j, const int k, const int l) const{
     if(i < DimSize[0] && j < DimSize[1] && k < DimSize[2] && l < DimSize[3])
       return true;
     return false;
   };
 
-  unsigned int TensorDim4::GetGlobalIndex(const unsigned int i1, const unsigned int i2, const unsigned int i3, const unsigned int i4) const{
+  int TensorDim4::GetGlobalIndex(const int i1, const int i2, const int i3, const int i4) const{
     return (DimSize[0] * DimSize[1] * DimSize[2] * i1 +
 	    DimSize[1] * DimSize[2] * i2 +
 	    DimSize[2] * i3 +
@@ -16,20 +16,17 @@ namespace TensorUtils{
   };
 
   TensorDim4::TensorDim4(const TensorDim4& t1){
+    t1.AssertGoodDim(4);
     this->Name = t1.Name;
-    if(t1.Dim != 4){
-      std::cerr << "The tensor is not of dimension 4!" << std::endl;
-      exit(1);	
-    }
     this->Dim = t1.Dim;
-    for(unsigned int i = 0; i < t1.Element.size(); i++)
+    for(int i = 0; i < t1.Element.size(); i++)
       this->Element.push_back(t1.Element[i]);
-    for(unsigned int i = 0; i < t1.DimSize.size(); i++)
+    for(int i = 0; i < t1.DimSize.size(); i++)
       this->DimSize.push_back(t1.DimSize[i]);
   };
 
 
-  TensorDim4::TensorDim4(const char * Name, unsigned int SizeDim1, unsigned int SizeDim2, unsigned int SizeDim3, unsigned int SizeDim4){
+  TensorDim4::TensorDim4(const char * Name, int SizeDim1, int SizeDim2, int SizeDim3, int SizeDim4){
     this->Name = Name;
     DimSize.clear();
     DimSize.reserve(4);
@@ -37,6 +34,7 @@ namespace TensorUtils{
     DimSize.push_back(SizeDim2);
     DimSize.push_back(SizeDim3);
     DimSize.push_back(SizeDim4);
+    Dim = DimSize.size();
     Element.clear();
     Element.reserve(DimSize[0]*DimSize[1]*DimSize[2]*DimSize[3]);
     TComplex Zero(0.,0.);
@@ -52,7 +50,7 @@ namespace TensorUtils{
   
 
 
-  TensorDim4::TensorDim4(const char * Name, unsigned int SizeDim){
+  TensorDim4::TensorDim4(const char * Name, int SizeDim){
     this->Name = Name;
     DimSize.clear();
     DimSize.reserve(4);
@@ -60,6 +58,7 @@ namespace TensorUtils{
     DimSize.push_back(SizeDim);
     DimSize.push_back(SizeDim);
     DimSize.push_back(SizeDim);
+    Dim = DimSize.size();
     Element.clear();
     Element.reserve(DimSize[0]*DimSize[1]*DimSize[2]*DimSize[3]);
     TComplex Zero(0.,0.);
@@ -73,10 +72,10 @@ namespace TensorUtils{
     }
   };
 
-  TComplex TensorDim4::At(const unsigned int i,
-			  const unsigned int j,
-			  const unsigned int k,
-			  const unsigned int l) const{
+  TComplex TensorDim4::At(const int i,
+			  const int j,
+			  const int k,
+			  const int l) const{
     if(!CheckIndex(i, j, k, l))
       exit(1);
 
@@ -84,43 +83,52 @@ namespace TensorUtils{
   };
 
   void TensorDim4::Set(int i, int j, int k, int l, TComplex c){
-    if(CheckIndex(i, j, k, l))
-      Element[GetGlobalIndex(i, j, k, l)] = c;
-    else{
-      //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
-    }
+    if(!CheckIndex(i, j, k, l))
+      exit(1);
+    
+    Element[GetGlobalIndex(i, j, k, l)] = c;
+    
   };
 
   void TensorDim4::Print() const{
-    std::cout << "Tensor Dim4 with name '" << Name << "'" << std::endl;
-    for(unsigned int i = 0; i < Dim; i++){
-      std::cout << "Dimension[" << i << "] size: " << DimSize[i] << std::endl;
-      std::cout << "Element[<dimension>, <position>]" << std::endl;
-      for(unsigned int j = 0; j < DimSize[i]; j++){
-	std::cout << "Element[" << i << ", " << j << "] = " << this->At(i, j, 0, 0) << std::endl;
+    std::cout << "______________________________________________________________________" << std::endl;
+    std::cout << "Tensor Dim" << this->DimSize.size() << " with name '" << Name << "'" << std::endl;
+    for(int i = 0; i < Dim; i++){
+      std::cout << "Dimension(" << i << ") size: " << DimSize[i] << std::endl;
+    }
+
+    std::cout << "Element(<position0>, <position1>, <position2> <position3> = <globalposition>)" << std::endl;
+    for(int i = 0; i < DimSize[0]; i++){
+      for(int j = 0; j < DimSize[1]; j++){
+	for(int k = 0; k < DimSize[2]; k++){
+	  for(int l = 0; l < DimSize[3]; l++){
+	    std::cout << "Element(" << i << ", " << j << " = " << this->GetGlobalIndex(i,j,k,l) << ") = " << this->At(i,j,k,l) << std::endl;
+	  }
+	}
       }
     }
+    
+    std::cout << "______________________________________________________________________" << std::endl;
+    
   };
 
 
-  TComplex& TensorDim4::operator()(const unsigned int i1,
-				   const unsigned int i2,
-				   const unsigned int i3,
-				   const unsigned int i4){
+  TComplex& TensorDim4::operator()(const int i1,
+				   const int i2,
+				   const int i3,
+				   const int i4){
     if(!CheckIndex(i1, i2, i3, i4))
       exit(1);
-    //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
 
     return Element[GetGlobalIndex(i1, i2, i3, i4)];
   };
 
-  TComplex TensorDim4::operator()(const unsigned int i1,
-				  const unsigned int i2,
-				  const unsigned int i3,
-				  const unsigned int i4) const{
+  TComplex TensorDim4::operator()(const int i1,
+				  const int i2,
+				  const int i3,
+				  const int i4) const{
     if(!CheckIndex(i1, i2, i3, i4))
       exit(1);
-    //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
 
     return Element[GetGlobalIndex(i1, i2, i3, i4)];
   };

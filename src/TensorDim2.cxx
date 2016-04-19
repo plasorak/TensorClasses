@@ -1,127 +1,104 @@
 #include "TensorUtils/TensorDim.h"
-#define DEBUG
+#include "TString.h"
 
 namespace TensorUtils{
 
-  bool TensorDim2::CheckIndex(const unsigned int i, const unsigned int j) const{
+  bool TensorDim2::CheckIndex(const int i, const int j) const{
     return (i < DimSize[0] && j < DimSize[1]);
   };
 
-  unsigned int TensorDim2::GetGlobalIndex(const unsigned int i,
-					  const unsigned int j) const{
+  int TensorDim2::GetGlobalIndex(const int i,
+					  const int j) const{
     return i * DimSize[0] + j;
   };
 
-  TensorDim2::TensorDim2(const char * Name, unsigned int SizeDim1, unsigned int SizeDim2){
+  TensorDim2::TensorDim2(const char * Name, int SizeDim1, int SizeDim2){
     this->Name = Name;
-    //this->DimSize.clear();
     this->DimSize.reserve(2);
     this->DimSize.push_back(SizeDim1);
     this->DimSize.push_back(SizeDim2);
     this->Dim = DimSize.size();
-    std::cout << "Dim1212 " << this->Dim << std::endl;
-    //this->Element.clear();
     this->Element.reserve(DimSize[0]*DimSize[1]);
 
     TComplex Zero(0.,0.);
-#ifdef DEBUG
-    for(int i = 0; i < Dim; i++)
-      std::cout << "Dim[" << i << "] = " << this->DimSize[i] << std::endl;
-#endif
 
-    for(int i1 = 0; i1 < this->DimSize[0]; i1++){
-      for(int i2 = 0; i2 < this->DimSize[1]; i2++){
+    for(int i1 = 0; i1 < this->DimSize[0]; i1++)
+      for(int i2 = 0; i2 < this->DimSize[1]; i2++)
 	this->Element.push_back(Zero);
-
-#ifdef DEBUG
-	std::cout << "setting (" << i1  << ", " << i2 << " = " << this->GetGlobalIndex(i1, i2) << ") to " << this->Element[this->GetGlobalIndex(i1, i2)] << std::endl;
-#endif
-      }
-    }
+      
+    
   };
   TensorDim2::TensorDim2(const TensorDim2& t1){
+    t1.AssertGoodDim(2);
     this->Name = t1.Name;
-    if(t1.Dim != 2){
-      std::cerr << "The tensor is not of dimension 2!" << std::endl;
-      exit(1);	
-    }
     this->Dim = t1.Dim;
-    for(unsigned int i = 0; i < t1.Element.size(); i++)
+    this->DimSize.reserve(2);
+    this->DimSize.push_back(t1.DimSize[0]);
+    this->DimSize.push_back(t1.DimSize[1]);
+    this->Element.reserve(DimSize[0]*DimSize[1]);
+
+    for(int i = 0; i < t1.Element.size(); i++)
       this->Element.push_back(t1.Element[i]);
-    for(unsigned int i = 0; i < t1.DimSize.size(); i++)
-      this->DimSize.push_back(t1.DimSize[i]);
   };
 
-  TensorDim2::TensorDim2(const char * Name, unsigned int SizeDim){
+  TensorDim2::TensorDim2(const char * Name, int SizeDim){
     this->Name = Name;
-    //this->DimSize.clear();
     this->DimSize.reserve(2);
     this->DimSize.push_back(SizeDim);
     this->DimSize.push_back(SizeDim);
     this->Dim = DimSize.size();
-    std::cout << "Dim1212 " << this->Dim << std::endl;
-    //this->Element.clear();
     this->Element.reserve(DimSize[0]*DimSize[1]);
 
     TComplex Zero(0.,0.);
-#ifdef DEBUG
-    for(int i = 0; i < Dim; i++)
-      std::cout << "Dim[" << i << "] = " << this->DimSize[i] << std::endl;
-#endif
 
-    for(int i1 = 0; i1 < this->DimSize[0]; i1++){
-      for(int i2 = 0; i2 < this->DimSize[1]; i2++){
+
+    for(int i1 = 0; i1 < this->DimSize[0]; i1++)
+      for(int i2 = 0; i2 < this->DimSize[1]; i2++)
 	this->Element.push_back(Zero);
-	
-#ifdef DEBUG
-	std::cout << "setting (" << i1  << ", " << i2 << " = " << this->GetGlobalIndex(i1, i2) << ") to " << this->Element[this->GetGlobalIndex(i1, i2)] << std::endl;
-#endif
-      }
-    }
+    
+    
   };
 
-  TComplex TensorDim2::At(const unsigned int i, const unsigned int j) const{
+  TComplex TensorDim2::At(const int i, const int j) const{
     if(!CheckIndex(i, j))
       exit(1);
     return Element[GetGlobalIndex(i, j)];
 
   };
 
-  void TensorDim2::Set(const unsigned int i, const unsigned int j, TComplex c){
-    if(CheckIndex(i, j))
-      Element[GetGlobalIndex(i, j)] = c;
-   
-    else{
+  void TensorDim2::Set(const int i, const int j, TComplex c){
+    if(!CheckIndex(i, j))
       exit(1);
-      //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
-    }
+    
+    Element[GetGlobalIndex(i, j)] = c;
+      
   };
 
   void TensorDim2::Print() const{
-    std::cout << "" << std::endl;
+    std::cout << "______________________________________________________________________" << std::endl;
     std::cout << "TensorDim" << this->DimSize.size() << " with name '" << this->Name << "'" << std::endl;
-    for(unsigned int i = 0; i < Dim; i++){
+    for(int i = 0; i < Dim; i++){
       std::cout << "Dimension(" << i << ") size: " << this->DimSize[i] << std::endl;
     }
     std::cout << "Element(<position0>, <position1> = <globalposition>)" << std::endl;
-    for(unsigned int i = 0; i < this->DimSize[0]; i++){
-      for(unsigned int j = 0; j < this->DimSize[1]; j++){
-	std::cout << "Element(" << i << ", " << j << " = " << this->GetGlobalIndex(i, j) << ") = " << this->At(i, j) << std::endl;
+    for(int i = 0; i < this->DimSize[0]; i++){
+      for(int j = 0; j < this->DimSize[1]; j++){
+	std::cout << " Element(" << i << ", " << j << " = " << this->GetGlobalIndex(i, j) << ") = " << this->At(i, j) << std::endl;
       }
     }
+    std::cout << "______________________________________________________________________" << std::endl;
+
   };
   
   TComplex& TensorDim2::operator()(const int i1, const int i2){
     if(!CheckIndex(i1, i2))
       exit(1);
-    //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
     return Element[GetGlobalIndex(i1, i2)];
   };
 
   TComplex  TensorDim2::operator()(const int i1, const int i2) const{
     if(!CheckIndex(i1, i2))
       exit(1);
-    //LOG("TensorDim", pFATAL) << "The tensor dimensions don't match!";
     return Element[GetGlobalIndex(i1, i2)];
   };
 
@@ -290,28 +267,19 @@ namespace TensorUtils{
 
   TensorDim2 operator*(const TensorDim2 &t1, const TensorDim2 &t2){
 
+    // First check the dimension of the tensors
+    t1.AssertGoodDim(2);
+    t2.AssertGoodDim(2);
     // First check the dimension of the matrix
-    if(t1.GetDim() != 2 || t2.GetDim() != 2){
-      std::cerr << "Can't do the matrix product, one of the tensor is not a matrix or vector" << std::endl;
-      exit(1);
-    }
-
-    // Then check that size are good for multiplication
     // (i * j) (j * k) = (i * k)
-    if(t1.GetDimSize(1) !=  t2.GetDimSize(0)){
-      std::cerr << "Can't do the matrix product, the matrix sizes are not right" << std::endl;
-      exit(1);
-    }
-    char* resultName;
-    strcpy(resultName, t1.GetName());
-    strcat(resultName, t2.GetName());
+    t1.AssertGoodDim(1, t2.GetDimSize(1));
 
-    TensorDim2 result(resultName, t1.GetDimSize(0), t2.GetDimSize(1));
+    TensorDim2 result(Form("(%sX%s)",t1.GetName(), t2.GetName()), t1.GetDimSize(0), t2.GetDimSize(1));
 
     for(int i = 0; i < t1.GetDimSize(0); i++)
-      for(int j = 0; j < t2.GetDimSize(1); j++)
-	for(int k = 0; k < t1.GetDimSize(1); k++)
-	  result(i,j) += t1(i,k)*t2(k,j);
+      for(int k = 0; k < t2.GetDimSize(1); k++)
+	for(int j = 0; j < t1.GetDimSize(1); j++)
+	  result(i,k) += t1(i,j)*t2(j,k);
     
     return result;
   };
