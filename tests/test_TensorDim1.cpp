@@ -3,28 +3,28 @@
 
 // project specific include
 #include "TensorUtils/Tensor.h"
-#include "TensorUtils/TensorDim.h"
+#include "TensorUtils/TensorOrder.h"
 #include "TensorUtils/TensorUtils.h"
 
 #include "TComplex.h"
 
 using namespace TensorUtils;
 
-TEST(TensorDim1, DoesThings) {
-  TensorDim1 td1 = TensorDim1();
-  EXPECT_EQ(1, td1.GetDim());
-  EXPECT_EQ(4, td1.GetDimSize());
+TEST(TensorOrder1, DoesThings) {
+  TensorOrder1 td1 = TensorOrder1();
+  EXPECT_EQ(1, td1.GetOrder());
+  EXPECT_EQ(4, td1.GetOrderDim());
   
-  TensorDim1 td2 = TensorDim1("101",10);
-  EXPECT_EQ(1,  td2.GetDim());
-  EXPECT_EQ(10, td2.GetDimSize());
+  TensorOrder1 td2 = TensorOrder1("101",10);
+  EXPECT_EQ(1,  td2.GetOrder());
+  EXPECT_EQ(10, td2.GetOrderDim());
 
-  TensorDim1 td3 = TensorDim1("102",10);
-  TensorDim1 td4 = TensorDim1("103",10);
-  TensorDim1 td5 = TensorDim1("104",10);
-  TensorDim1 td9 = TensorDim1("109",10);
-  TensorDim1 td10 = TensorDim1("1010",10);
-  TensorDim1 td11 = TensorDim1("1011",10);
+  TensorOrder1 td3 = TensorOrder1("102",10);
+  TensorOrder1 td4 = TensorOrder1("103",10);
+  TensorOrder1 td5 = TensorOrder1("104",10);
+  TensorOrder1 td9 = TensorOrder1("109",10);
+  TensorOrder1 td10 = TensorOrder1("1010",10);
+  TensorOrder1 td11 = TensorOrder1("1011",10);
   TComplex result1(0,0);
 
   TComplex cu(0.,1.);
@@ -40,19 +40,19 @@ TEST(TensorDim1, DoesThings) {
   }
 
   EXPECT_EQ(2., td3+td4);
-  // EXPECT_EQ(td5, td3-td4);
+  EXPECT_EQ(td5, td3-td4);
   // EXPECT_EQ(td5, td3.MultiplyElementWise(td4));
   EXPECT_EQ(result1.Im(), DotProd(td3,td4).Im());
   EXPECT_EQ(result1.Re(), DotProd(td3,td4).Re());
-  // EXPECT_EQ(td9, Abs(td5));
-  // EXPECT_EQ(td10, Imaginary(td5));
-  // EXPECT_EQ(td11, Real(td5));
+  EXPECT_EQ(td9, Abs(td5));
+  EXPECT_EQ(td10, Imaginary(td5));
+  EXPECT_EQ(td11, Real(td5));
 
-  TensorDim1 td6 = TensorDim1("30",3);
-  TensorDim1 td7 = TensorDim1("31",3);
-  TensorDim1 td8 = TensorDim1("32",3);
-  TensorDim1 td71 = TensorDim1("41",4);
-  TensorDim1 td81 = TensorDim1("42",4);
+  TensorOrder1 td6 = TensorOrder1("30",3);
+  TensorOrder1 td7 = TensorOrder1("31",3);
+  TensorOrder1 td8 = TensorOrder1("32",3);
+  TensorOrder1 td71 = TensorOrder1("41",4);
+  TensorOrder1 td81 = TensorOrder1("42",4);
   
   TComplex result2(0,0);
   TComplex result3(0,0);

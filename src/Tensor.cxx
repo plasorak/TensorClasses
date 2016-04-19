@@ -1,5 +1,5 @@
 #include "TensorUtils/Tensor.h"
-#include "TensorUtils/TensorDim.h"
+#include "TensorUtils/TensorOrder.h"
 
 #include "TComplex.h"
 
@@ -13,27 +13,27 @@ namespace TensorUtils{
 
   Tensor::~Tensor(){
     Element.clear();
-    DimSize.clear();
+    Dim.clear();
   };
 
 
-  int Tensor::GetDim() const{
+  int Tensor::GetOrder() const{
 
-    this->AssertGoodDim(this->Dim);
-    return Dim;
+    this->AssertGoodSize(this->Order);
+    return Order;
   };
 
-  int Tensor::GetDimSize(const int i) const{
+  int Tensor::GetOrderDim(const int i) const{
     
-    this->AssertGoodDim(this->Dim);
+    this->AssertGoodSize(this->Order);
 
-    if(i >= 0 && i < Dim)
-      return DimSize[i];
+    if(i >= 0 && i < Order)
+      return Dim[i];
     else{
       std::cout << "Trying to access the size of dimension which doesn't exist in the tensor."<<  std::endl;
       std::cout << "Index = " << i << std::endl;
-      std::cout << "DimSize.size() = " << DimSize.size() << std::endl;
-      std::cout << "DimSize[" << i << "] = " << DimSize[i] << std::endl;
+      std::cout << "Dim.size() = " << Dim.size() << std::endl;
+      std::cout << "Dim[" << i << "] = " << Dim[i] << std::endl;
       std::cout << "Program will exit" << std::endl;
       exit(1);
     }
@@ -49,21 +49,21 @@ namespace TensorUtils{
 
   Tensor& Tensor::operator=(const Tensor &t1){
     this->Name = t1.Name;
-    this->Dim  = t1.Dim;
+    this->Order  = t1.Order;
     for(int i = 0; i < t1.Element.size(); i++)
       this->Element[i] = t1.Element[i];
-    for(int i = 0; i < t1.DimSize.size(); i++)
-      this->DimSize[i] = t1.DimSize[i];
+    for(int i = 0; i < t1.Dim.size(); i++)
+      this->Dim[i] = t1.Dim[i];
     return *this;
   };
 
   Tensor::Tensor(const Tensor& t1){
     this->Name = t1.Name;
-    this->Dim  = t1.Dim;
+    this->Order  = t1.Order;
     for(int i = 0; i < t1.Element.size(); i++)
       this->Element.push_back(t1.Element[i]);
-    for(int i = 0; i < t1.DimSize.size(); i++)
-      this->DimSize.push_back(t1.DimSize[i]);
+    for(int i = 0; i < t1.Dim.size(); i++)
+     this->Dim.push_back(t1.Dim[i]);
   };
 
   TComplex& Tensor::operator()(const int GlobalIndex){
@@ -74,45 +74,45 @@ namespace TensorUtils{
     return Element[GlobalIndex];
   };
 
-  bool Tensor::GoodDim(int iDim) const{
-    if(this->Dim != DimSize.size()) { return false; }
-    if(this->Dim != iDim) { return false; }
+  bool Tensor::GoodSize(int iDim) const{
+    if(this->Order != Dim.size()) { return false; }
+    if(this->Order != iDim) { return false; }
     return true;
   };
 
-  // Check that the tensor (this) has the dimension size DimSize in the dimension Dim (eugh)
-  bool Tensor::GoodDim(int iDim, int DimSize) const{
-    if(this->Dim != this->DimSize.size()) { return false; }
-    if(this->Dim <= iDim) { return false; }
-    if(this->DimSize[iDim] != DimSize) { return false; }
+  // Check that the tensor (this) has the dimension size Dim in the dimension Dim (eugh)
+  bool Tensor::GoodSize(int iDim, int Dim) const{
+    if(this->Order != this->Dim.size()) { return false; }
+    if(this->Order <= iDim) { return false; }
+    if(this->Dim[iDim] != Dim) { return false; }
     return true;
   };
 
   // Check that both tensor (this and t1) have same dimension sizes
-  bool Tensor::GoodDim(const Tensor &t1) const{
-    this->GoodDim(t1.GetDim());
-    t1.GoodDim(this->GetDim());
-    for(int i = 0; i < this->GetDim(); i++){
-      this->GoodDim(i, t1.GetDimSize(i));
+  bool Tensor::GoodSize(const Tensor &t1) const{
+    this->GoodSize(t1.GetOrder());
+    t1.GoodSize(this->GetOrder());
+    for(int i = 0; i < this->GetOrder(); i++){
+      this->GoodSize(i, t1.GetOrderDim(i));
     }
     return true;
   };
 
   // Check that the tensor (this) has the dimension Dim
-  bool Tensor::AssertGoodDim(int iDim) const{
-    if(this->Dim != DimSize.size()){
-      std::cout << "bool Tensor::AssertGoodDim(int iDim) const" << std::endl;
+  bool Tensor::AssertGoodSize(int iDim) const{
+    if(this->Order != Dim.size()){
+      std::cout << "bool Tensor::AssertGoodSize(int iDim) const" << std::endl;
       std::cout << "Dimension of the tensor has changed!" << std::endl;
-      std::cout << "Dim            = " << Dim << std::endl;
-      std::cout << "DimSize.size() = " << DimSize.size() << std::endl;
+      std::cout << "Order            = " << Order << std::endl;
+      std::cout << "Dim.size() = " << Dim.size() << std::endl;
       std::cout << "Program will exit" << std::endl;
       exit(1);
     }
-    if(this->Dim != iDim){
-      std::cout << "bool Tensor::AssertGoodDim(int iDim) const" << std::endl;
+    if(this->Order != iDim){
+      std::cout << "bool Tensor::AssertGoodSize(int iDim) const" << std::endl;
       std::cout << "The number of dimensions don't match!" << std::endl;
-      std::cout << "Dim       = " << iDim << std::endl;
-      std::cout << "this->Dim = " << this->Dim << std::endl;
+      std::cout << "Order       = " << iDim << std::endl;
+      std::cout << "this->Order = " << this->Order << std::endl;
       std::cout << "Program will exit" << std::endl;
       exit(1);
     }
@@ -120,30 +120,30 @@ namespace TensorUtils{
     
   };
 
-  // Check that the tensor (this) has the dimension size DimSize in the dimension Dim (eugh)
-  bool Tensor::AssertGoodDim(int iDim, int DimSize) const{
+  // Check that the tensor (this) has the dimension size Order in the dimension Dim (eugh)
+  bool Tensor::AssertGoodSize(int iDim, int Dim) const{
 
-    if(this->Dim != this->DimSize.size()){
-      std::cout << "bool Tensor::AssertGoodDim(int iDim, int DimSize) const" << std::endl;
+    if(this->Order != this->Dim.size()){
+      std::cout << "bool Tensor::AssertGoodSize(int iDim, int Dim) const" << std::endl;
       std::cout << "Dimension of the tensor has changed!" << std::endl;
-      std::cout << "this->Dim            = " << this->Dim << std::endl;
-      std::cout << "this->DimSize.size() = " << this->DimSize.size() << std::endl;
+      std::cout << "this->Order            = " << this->Order << std::endl;
+      std::cout << "this->Dim.size() = " << this->Dim.size() << std::endl;
       std::cout << "Program will exit" << std::endl;
       exit(1);
     }
-    if(this->Dim <= iDim){
-      std::cout << "bool Tensor::AssertGoodDim(int iDim, int DimSize) const" << std::endl;
+    if(this->Order <= iDim){
+      std::cout << "bool Tensor::AssertGoodSize(int iDim, int Dim) const" << std::endl;
       std::cout << "The number of dimensions don't match!" << std::endl;
-      std::cout << "Dim       = " << iDim << std::endl;
-      std::cout << "this->Dim = " << this->Dim << std::endl;
+      std::cout << "Order       = " << iDim << std::endl;
+      std::cout << "this->Order = " << this->Order << std::endl;
       std::cout << "Program will exit" << std::endl;
       exit(1);
     }
-    if(this->DimSize[iDim] != DimSize){
-      std::cout << "bool Tensor::AssertGoodDim(int iDim, int DimSize) const" << std::endl;
+    if(this->Dim[iDim] != Dim){
+      std::cout << "bool Tensor::AssertGoodSize(int iDim, int Dim) const" << std::endl;
       std::cout << "The dimension size of dimension " << iDim  << " don't match!" << std::endl;
-      std::cout << "DimSize   = " << iDim << std::endl;
-      std::cout << "this->DimSize[" << iDim << "] = " << this->DimSize[iDim] << std::endl;
+      std::cout << "Dim   = " << iDim << std::endl;
+      std::cout << "this->Dim[" << iDim << "] = " << this->Dim[iDim] << std::endl;
       std::cout << "Program will exit" << std::endl;
       exit(1);
     }
@@ -153,12 +153,12 @@ namespace TensorUtils{
   };
 
   // Check that both tensor (this and t1) have same dimension sizes
-  bool Tensor::AssertGoodDim(const Tensor &t1) const{
-    this->AssertGoodDim(t1.GetDim());
-    t1.AssertGoodDim(this->GetDim());
+  bool Tensor::AssertGoodSize(const Tensor &t1) const{
+    this->AssertGoodSize(t1.GetOrder());
+    t1.AssertGoodSize(this->GetOrder());
 
-    for(int i = 0; i < this->GetDim(); i++){
-      this->AssertGoodDim(i, t1.GetDimSize(i));
+    for(int i = 0; i < this->GetOrder(); i++){
+      this->AssertGoodSize(i, t1.GetOrderDim(i));
     }
     return true;
   };
@@ -235,7 +235,7 @@ namespace TensorUtils{
   void Tensor::Add(const Tensor &t1){
 
     // First check the dimension/sizes of the tensor
-    this->AssertGoodDim(t1);
+    this->AssertGoodSize(t1);
 
     for(int i = 0; i < this->Element.size(); i++)
       this->Element[i] = this->Element[i] + t1.Element[i];
@@ -245,7 +245,7 @@ namespace TensorUtils{
   void Tensor::Subtract(const Tensor &t1){
 
     // First check the dimension/sizes of the tensor
-    this->AssertGoodDim(t1);
+    this->AssertGoodSize(t1);
 
     for(int i = 0; i < this->Element.size(); i++)
       this->Element[i] = this->Element[i] - t1.Element[i];
@@ -254,7 +254,7 @@ namespace TensorUtils{
   void Tensor::MultiplyElementWise(const Tensor &t1){
 
     // First check the dimension/sizes of the tensor
-    this->AssertGoodDim(t1);
+    this->AssertGoodSize(t1);
   
     for(int i = 0; i < this->Element.size(); i++)
       this->Element[i] = this->Element[i] * t1.Element[i];
@@ -263,7 +263,7 @@ namespace TensorUtils{
   void Tensor::DivideElementWise(const Tensor &t1){
 
     // First check the dimension/sizes of the tensor
-    this->AssertGoodDim(t1);
+    this->AssertGoodSize(t1);
 
     for(int i = 0; i < this->Element.size(); i++)
       this->Element[i] = this->Element[i] / t1.Element[i];
@@ -300,16 +300,14 @@ namespace TensorUtils{
   bool Tensor::IsEqual(const Tensor &t1) const{
 
     // First check the dimension/sizes of the tensor
-    this->GoodDim(t1);
+    this->GoodSize(t1);
 
-    bool flag = true;
-    int i = 0;
     // Then check the element by element
-    while(flag && i < t1.Element.size()){
+    for(int i = 0; i < t1.Element.size(); i++){
       if(this->Element[i].Re() != t1.Element[i].Re() || this->Element[i].Im() != t1.Element[i].Im())
-	flag = false;
+	return false;
     }
-    return flag;
+    return true;
   };
 
   bool Tensor::IsDifferent(const Tensor &t1) const{
@@ -319,7 +317,7 @@ namespace TensorUtils{
   bool Tensor::IsBiggerOrEqual(const Tensor &t1) const{
 
     // First dimensions the dimension/sizes of the tensor
-    this->GoodDim(t1);
+    this->GoodSize(t1);
 
     bool flag = true;
     int i = 0;
@@ -377,9 +375,10 @@ namespace TensorUtils{
   };
 
   bool Tensor::IsEqual(TComplex d) const{
-    for(int i = 0; i < this->Element.size(); i++)
+    for(int i = 0; i < this->Element.size(); i++){
       if(this->Element[i].Re() == d.Re() && this->Element[i].Im() == d.Im())
 	return false;
+    }
     return true;
   };
 
