@@ -11,25 +11,29 @@
 
 namespace TensorUtils{
 
+  // Deletion function for mem leaks
   Tensor::~Tensor(){
     Element.clear();
     Dim.clear();
   };
 
 
+  // Get the order of the tensor, technically this is just the class,
+  // but it is always interesting to have it for tensor-wide function
   int Tensor::GetOrder() const{
-
+    // Check that everything is behaving as expected
     this->AssertGoodSize(this->Order);
     return Order;
   };
 
+  // Get the dimension of every order (which is could be different for every order...)
   int Tensor::GetOrderDim(const int i) const{
-    
+    // Check that everything is behaving as expected
     this->AssertGoodSize(this->Order);
 
     if(i >= 0 && i < Order)
       return Dim[i];
-    else{
+    else{ // insult the user if there is a problem and leave
       std::cout << "Trying to access the size of dimension which doesn't exist in the tensor."<<  std::endl;
       std::cout << "Index = " << i << std::endl;
       std::cout << "Dim.size() = " << Dim.size() << std::endl;
@@ -39,6 +43,7 @@ namespace TensorUtils{
     }
   };
 
+  // usefull for dot product, sum over all the element of the tensor
   TComplex Tensor::SumOver() const{
     TComplex Zero(0,0);
     for(int i = 0; i < Element.size(); i++)
@@ -46,7 +51,7 @@ namespace TensorUtils{
     return Zero;
   }
   
-
+  // "Assign" operator, one of the tensor-wide function
   Tensor& Tensor::operator=(const Tensor &t1){
     this->Name = t1.Name;
     this->Order  = t1.Order;
@@ -57,6 +62,7 @@ namespace TensorUtils{
     return *this;
   };
 
+  // Copy constructor
   Tensor::Tensor(const Tensor& t1){
     this->Name = t1.Name;
     this->Order  = t1.Order;
@@ -66,14 +72,18 @@ namespace TensorUtils{
      this->Dim.push_back(t1.Dim[i]);
   };
 
+  // Access operator (write)
   TComplex& Tensor::operator()(const int GlobalIndex){
     return Element[GlobalIndex];
   };
 
+  // More access operator (this time for reading)
   TComplex  Tensor::operator()(const int GlobalIndex) const{
     return Element[GlobalIndex];
   };
 
+  // Function to check that everything is consistent
+  // this checks that the order is the same as the dimension of the vector of dimension
   bool Tensor::GoodSize(int iDim) const{
     if(this->Order != Dim.size()) { return false; }
     if(this->Order != iDim) { return false; }
