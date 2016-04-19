@@ -41,7 +41,8 @@ TEST(TensorOrder1, DoesThings) {
 
   EXPECT_EQ(2., td3+td4);
   EXPECT_EQ(td5, td3-td4);
-  // EXPECT_EQ(td5, td3.MultiplyElementWise(td4));
+  //EXPECT_EQ(td5, td3.MultiplyElementWise(td4)); 
+  // not sure why this isn't working??
   EXPECT_EQ(result1.Im(), DotProd(td3,td4).Im());
   EXPECT_EQ(result1.Re(), DotProd(td3,td4).Re());
   EXPECT_EQ(td9, Abs(td5));
