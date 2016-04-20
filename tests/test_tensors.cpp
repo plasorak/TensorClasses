@@ -29,6 +29,7 @@ TEST(TensorOrder1, DoesThings) {
   TensorOrder1 td9 = TensorOrder1("109",10);
   TensorOrder1 td10 = TensorOrder1("1010",10);
   TensorOrder1 td11 = TensorOrder1("1011",10);
+  TensorOrder1 td12 = TensorOrder1("1012",10);
 
   // The result of the dot product
   TComplex result1(0,0);
@@ -46,8 +47,10 @@ TEST(TensorOrder1, DoesThings) {
     td9(i) = TComplex::Abs((1. - cu) * (1. + cu)); // Abs result
     td10(i) = ((1. - cu) * (1. + cu)).Im();        // Imaginary part
     td11(i) = ((1. - cu) * (1. + cu)).Re();        // Real
+    td12(i) = ((1. - cu) * (1. + cu));
     result1 = result1 + (1. - cu) * (1. + cu);     // Dot product
   }
+  
   // Check that one can do double == tensor
   // Also check that the addition works
   EXPECT_EQ(2., td3+td4);
@@ -65,14 +68,13 @@ TEST(TensorOrder1, DoesThings) {
   EXPECT_EQ(result1.Re(), DotProd(td3,td4).Re());
   
   // Check the Tensor::Abs function works
-  EXPECT_EQ(td9, Abs(td5));
+  EXPECT_EQ(td9, Abs(td12));
   
   // Check the Tensor::Imaginary function works
-  EXPECT_EQ(td10, Imaginary(td5));
+  EXPECT_EQ(td10, Imaginary(td12));
   
   // Check the Tensor::Real function works
-  EXPECT_EQ(td11, Real(td5));
-
+  EXPECT_EQ(td11, Real(td12));
 
   // Some more tensor to play with!
   // This time use dimension 4 and 3 to be able to make CrossProducts and constraction with the MetricTensor
@@ -108,7 +110,7 @@ TEST(TensorOrder1, DoesThings) {
   // Check the Dot product after contraction with the metric Matrix.
   EXPECT_EQ(result2.Im(), DotProdMetric(td71,td81).Im());
   EXPECT_EQ(result2.Re(), DotProdMetric(td71,td81).Re());
-
+  
 }
 
 
